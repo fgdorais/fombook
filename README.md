@@ -1,4 +1,4 @@
-fombook
+FOMBook
 =======
 
-Foundations of Mathematics
+Textbook on Foundations of Mathematics centered on sense-making problems.
