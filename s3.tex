@@ -168,6 +168,7 @@ It will then follow that \(v(\beta) = V_\beta\) for every \(\beta \in \alpha.\)
 
 \begin{problem}
   Using the pieces defined below, compose a formula \(\varphi(x,y)\) that satisfies the requirements described above.
+  Then answer \emph{some} of the following for pieces that you used in your formula.
   \begin{enumerate}[(a)]
   \item Show that there is a formula \(\operatorname{succ}(x,y)\) that holds precisely when \(x\) is an ordinal and \(y = x+1.\)
   \item Show that there is a formula \(\operatorname{limit}(x)\) that holds precisely when \(x\) is a limit ordinal.
@@ -185,11 +186,11 @@ Since Theorem~\ref{T:TransfiniteRecursion} ensures that for every ordinal \(\alp
 Moreover, we have a formula \(\operatorname{level}(\alpha,x)\) that holds precisely when \(\alpha\) is an ordinal and \(x = V_\alpha.\) 
 Using some convenient abbreviations, we can compose this formula as
 follows: 
-\begin{multline}
+\begin{multline*}
   \operatorname{ord}(\alpha) \land \exists v (\operatorname{func}(v)
   \land \dom(v) = \alpha+1\\\land \forall \beta(\beta \in \alpha+1
   \lthen \varphi(v \res \beta, v(\beta))) \land x = v(\alpha)).
-\end{multline}
+\end{multline*}
 
 \begin{problem}
   Explain how to eliminate the abbreviations from the above description of \(\operatorname{level}(\alpha,x).\)
