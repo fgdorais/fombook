@@ -49,7 +49,7 @@ marginparsep=2pc,marginparwidth=12pc}
   \makebox[0pt][r]{\Huge\bfseries\S\theunit\hskip1em}%
   \makebox[\textwidth][l]{\Huge\bfseries\theunittitle}%
   \vskip1in%
-  \setcounter{page}{1}\thispagestyle{plain}%
+  \setcounter{page}{1}\thispagestyle{empty}%
   \par\noindent\ignorespaces}{\newpage\endgroup}
 
 % HEADERS & FOOTERS
