@@ -1,0 +1,148 @@
+\begin{unit}{Axiomatic Set Theory, Part I}
+
+We will now proceed to list the first-order axioms for set theory.
+To understand these axioms and to ensure that these axioms are sound, we will check that all of these axioms are true in our intended interpretation of set theory, i.e., that they follow from the five principles for Modern Set Theory.
+
+The first axiom tells us that sets are uniquely determined by their contents, which captures the informal meaning of `set' as we discussed some time ago. 
+
+\begin{axiom}[Extensionality]
+  \[\forall x \forall y(\forall z (z \in x \liff z \in y) \lthen x = y)\]
+\end{axiom}
+
+In Axiomatic Set Theory, everything is a set --- there is no distinguished ordinal timeline and therefore no notion of birthday or rank of a set.
+So we cannot formulate the Bounded Comprehension Principle the way we did before.
+Instead, we will postulate the following axiom scheme.
+
+\begin{axiom}[Separation Scheme]
+  If \(y\) does not occur free in the formula \(\varphi\) then the universal closure of the following formula is an axiom:
+  \[\forall x \exists y \forall z (z \in y \liff z \in x \land \varphi)\]
+\end{axiom}
+
+\noindent
+It is important to note that while \(y\) cannot occur free in \(\varphi,\) any other variable including \(x\) and \(z\) can occur free in \(\varphi.\)
+
+The Separation Scheme says that for any set \(x\) and any formula \(\varphi,\) one can form the subset \[\set{z \in x : \varphi}.\]
+This is sound for our intended interpretation because the restriction \(z \in x\) implicitly puts a bound on the ranks of the elements of this subset by the Hierarchy Principle.
+More precisely, \[\set{z \in x : \varphi} = \set{z : \rank(z) < \rank(x) \land z \in x \land \varphi}.\] 
+So every instance of the Separation Scheme is a valid instance of Bounded Comprehension in our intended interpretation.
+
+\begin{problem}
+  Argue that if one forgets the restriction that \(y\) does not occur free in \(\varphi\) in the Separation Scheme, then every set must be empty.
+\end{problem}
+
+Once we have shown the existence of the level \(V_\alpha\) of the cumulative hierarchy, the Bounded Comprehension Principle will follow from the Separation Scheme by taking \(x = V_\alpha.\)
+The proof in Axiomatic Set Theory that each level \(V_\alpha\) is the main task of the next unit.
+In order to accomplish this, we will need a series of combinatorial axioms that ensure that we have enough tools to carry out this construction.
+These combinatorial axioms typically assert the existence of sets large enough for this or that purpose.
+
+\begin{axiom}[Pairing]
+  \[\forall x \forall y \exists z (x \in z \land y \in z)\]
+\end{axiom}
+
+\noindent
+From this and separation, we see that there is a set \(\set{x,y}\) that contains exactly \(x\) and \(y.\)
+We also have the existence of singletons \(\set{x} = \set{x,x}.\)
+This is enough to prove the existence of \emph{ordered pairs} \[(x,y) = \set{\set{x},\set{x,y}}\] and consequently ordered triples \((x,y,z) = (x,(y,z))\) and so on.
+
+\begin{problem}
+  Show that \(\set{\set{x},\set{x,y}} = \set{\set{x'},\set{x',y'}}\) holds exactly when \(x = x'\) and \(y = y'.\)
+  (Note that \(\set{\set{x},\set{x,x}} = \set{\set{x}}\)!)
+\end{problem}
+
+For the next two axioms, it is convenient to use \(x \subseteq y\) as an abbreviation for the formula \(\forall w(w \in x \lthen w \in y).\)
+
+\begin{axiom}[Union]
+  \[\forall x \exists y \forall z (z \in x \lthen z \subseteq y)\]
+\end{axiom}
+
+\noindent
+The Union Axiom allows us to form the \emph{generalized union} of a set \[{\textstyle \bigcup x} = \set{ z : \exists y(z \in y \land y \in x)}.\]
+In other words, \(\bigcup x\) is the union of all elements of \(x.\)
+Combined with the Pairing Axiom, we obtain the usual union of two sets \(x \cup y = \bigcup\set{x,y}.\)
+
+\begin{problem}
+  Using the axioms listed so far, show that for all \(x,y,z,\) the set \(\set{x,y,z}\) exists. Generalize.
+\end{problem}
+
+\begin{axiom}[Powerset]
+  \[\forall x \exists y \forall z (z \subseteq x \lthen z \in y)\]
+\end{axiom}
+
+\noindent
+As the name suggests, Powerset Axiom allows us to form the powerset \[\pow(x) = \set{ z : z \subseteq x}.\]
+This operation will be very useful to us when it comes time to construct the cumulative hierarchy since \(V_{\alpha+1} = \pow(V_\alpha).\)
+
+\begin{problem}
+  Show that the Pairing Axiom, Union Axiom, Power Axiom are all true in our intended interpretation.
+\end{problem}
+
+To formalize the Infinity Principle, we postulate the existence of a set which is large enough to contain \(\omega = \set{0,1,2,\ldots}.\)
+Since \(0 = \varnothing\) and \(n+1 = n \cup \set{n},\) we can formulate this as follows.
+
+\begin{axiom}[Infinity]
+  \[\exists x (\varnothing \in x \land \forall y(y \in x \lthen y \cup \set{y} \in x))\]
+\end{axiom}
+
+\noindent
+This formulation of the Infinity Axiom contains some convenient abbreviations:
+\begin{itemize}
+\item \(\varnothing \in x\) abbreviates \(\exists z(z \in x \land \forall w\lnot(w \in z)).\)
+\item \(y \cup \set{y} \in x\) abbreviates \(\exists z(z \in x \land \forall w(w \in z \liff w \in y \lor w = y)).\)
+\end{itemize}
+Needless to say that the Infinity Axiom becomes nearly incomprehensible when written out in full!
+
+\begin{problem}
+  Suppose \(x\) is as postulated by the infinity axiom, i.e., \(\varnothing \in x\) and if \(y \in x\) then \(y \cup \set{y} \in x.\)
+  \begin{enumerate}[(a)]
+  \item Verify that \(z = \set{ x' \subseteq x : \varnothing \in x' \land \forall y(y \in x' \lthen y \cup \set{y} \in x')}\) is a set according to the axioms discussed so far.
+  \item Argue that \(\omega,\) if it exists, is equal to the \emph{generalized intersection} \(\bigcap z.\)
+  \end{enumerate}
+\end{problem}
+
+The next axiom may seem obscure at first but we will soon see that this is equivalent to the Wellfoundedness Principle.
+
+\begin{axiom}[Regularity]
+  \[\forall x (x \neq \varnothing \lthen \exists y (y \in x \land x \cap y = \varnothing))\]
+\end{axiom}
+
+\noindent
+Again, we have used some convenient abbreviations:
+\begin{itemize}
+\item \(x \neq \varnothing\) abbreviates \(\exists z (z \in x)\)
+\item \(x \cap y = \varnothing\) abbreviates \(\forall z \lnot(z \in x \land z \in y)\)
+\end{itemize}
+
+\begin{problem}
+To see that the Regularity Axiom is true in our intended interpretation, suppose that \(x \neq \varnothing.\)
+\begin{enumerate}[(a)]
+\item Show that \(\set{\rank(y) : y \in x}\) has a minimal element \(\alpha_0.\)
+\item Show that if \(\rank(y) = \alpha_0\) then \(x \cap y = \varnothing.\)
+\item Conclude that there must be a \(y \in x\) such that \(x \cap y = \varnothing.\)
+\end{enumerate}
+\end{problem}
+
+The next axiom scheme captures the idea of the Inaccessibility Principle without explicitly mentioning ordinals.
+
+\begin{axiom}[Collection Scheme]
+  If \(y\) does not occur free in the formula \(\varphi\) then the universal closure of the following formula is an axiom:
+  \[\forall x (\forall z (z \in x \lthen \exists w \varphi) \lthen \exists y \forall z (z \in x \lthen \exists w(w \in y \land \varphi)))\]
+\end{axiom}
+
+\noindent
+Again, it is important to note that while \(y\) cannot occur free in \(\varphi,\) any other variable including \(w\) and \(z\) can occur free in \(\varphi.\)
+
+To understand this scheme, the hypothesis \[\forall z (z \in x \lthen \exists w \varphi)\] says that every \(z \in x\) is related to some set \(w\) via \(\varphi\) and the conclusion \[\exists y \forall z (z \in x \lthen \exists w(w \in y \land \varphi))\] says that there is a set \(y\) that contains at least one such \(w\) for each \(z \in x.\)
+The difficulty is that the collection of all \(w\) related to \(z \in x\) via \(\varphi\) might be too large to form a set.
+The collector set \(y\) only gathers some of these sets \(w,\) at least one for each \(z \in x.\)
+
+\begin{problem}
+To see that the Collection Scheme is true in our intended interpretation, suppose \(\varphi\) is a formula and \(x\) is a set such that \(\forall z (z \in x \lthen \exists w \varphi).\)
+Consider the property \(\psi(z,\beta)\) defined by \(\psi(z,\beta) \liff \exists w(\rank(w) = \beta \land \varphi).\)
+\begin{enumerate}[(a)]
+\item Using the Inaccessibility Principle, show that there is an ordinal \(\alpha\) such that for every \(z \in x\) there is a \(\beta < \alpha\) such that \(\psi(z,\beta).\)
+\item Using the Bounded Comprehension Principle, show that there is a set \(y\) such that for every \(z \in x\) there is a \(w \in y\) such that \(\varphi\) holds of these sets.
+\end{enumerate}
+\end{problem}
+
+\end{unit}
+\endinput

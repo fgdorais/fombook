@@ -1,0 +1,179 @@
+\begin{unit}{Wellorderings and the Axiom of Choice}
+
+The Wellfoundedness Principle of Modern Set Theory ensures that every nonempty set of ordinals has a unique minimal element.
+This property of ordinals played a key role in our development of set theory.
+To further understand this key idea, we will look at the general idea behind it:
+
+\begin{definition}\label{D:Wellordering}
+  A \strong{wellordering} of a set \(a\) is a relation \({\prec}\) on \(a\) such that every nonempty subset \(b\) of \(a\) has a unique \strong{\({\prec}\)-minimal element}, i.e., there is exactly one \(x \in b\) such that \(y \nprec x\) for all \(y \in b.\)
+\end{definition}
+
+\begin{problem}
+  By considering sets with one, two and three elements, show that a wellordering is a strict linear ordering.
+\end{problem}
+
+\noindent
+Note that if \(\prec\) is a wellordering of \(a,\) then its restriction to any subset \(b\) of \(a\) is also a wellordering of \(b.\)
+In particular, for every \(x \in a,\) the \strong{initial segment} \[a[{\prec x}] = \set{y \in a : y \prec x}\] is wellordered by \(\prec.\)
+
+\begin{theorem}\label{T:ComparabilityOfWellorderings}
+  If \(\prec_1\) is a wellordering of \(a_1\) and \(\prec_2\) is a wellordering of \(a_2,\) then exactly one of the following is true.
+  \begin{itemize}
+  \item \((a_1,{\prec_1})\) and \((a_2,{\prec_2})\) are isomorphic.
+  \item \((a_1,{\prec_1})\) is isomorphic to an initial segment of \((a_2,{\prec_2}).\)
+  \item \((a_2,{\prec_2})\) is isomorphic to an initial segment of \((a_1,{\prec_1}).\)
+  \end{itemize}
+  Moreover, in each case, the isomorphism is unique.
+\end{theorem}
+
+\begin{problem}
+  Suppose \(\prec\) is a wellordering of \(a\) and suppose \(f:a \to a\) is order-preserving (i.e., if \(x \prec y\) then \(f(x) \prec f(y)\))
+  \begin{enumerate}[(a)]
+  \item Show that \(f\) is one-to-one.
+  \item Show that \(x \preceq f(x)\) for every \(x \in a.\)
+  \item Show that if \(f\) is onto then \(f(x) = x\) for every \(x \in a.\)
+  \item Conclude that there can be at most one isomorphism between any two wellorderings.
+  \end{enumerate}
+\end{problem}
+
+\begin{problem}
+  Suppose \(\prec_1\) is a wellordering of \(a_1\) and \(\prec_2\) is a wellordering of \(a_2.\)
+  \begin{enumerate}[(a)]
+  \item Show that for every \(x \in a_1\) there is at most one \(y \in a_2\) such that the initial segment \(a_1[{\prec_1 x}]\) is isomorphic to the initial segment \(a_2[{\prec_2 y}]\) (and vice versa).
+  \item Show that either every initial segment of \((a_1,{\prec_1})\) is isomorphic to an initial segment of \((a_2,{\prec_2}),\) or every initial segment of \((a_2,{\prec_2})\) is isomorphic to an initial segment of \((a_1,{\prec_1}).\)
+  \item Suppose \(f:a_1 \to a_2\) is such that \(a_1[{\prec_1 x}]\) is isomorphic to \(a_2[{\prec_2 f(x)}]\) for every \(x \in a_1.\)
+    Show that \(f\) is order-preserving and that the range of \(f\) is either all of \(a_2\) or an initial segment of \((a_2,{\prec_2}).\)
+  \end{enumerate}
+\end{problem}
+
+\begin{theorem}\label{T:WellorderingType}
+  Every wellordering is isomorphic to a unique ordinal.
+\end{theorem}
+
+\begin{problem}
+  Prove Theorem~\ref{T:WellorderingType}.
+\end{problem}
+
+Transfinite Recursion (Theorem~\ref{T:TransfiniteRecursion}) played a crucial role in our construction of the levels \(V_\alpha\) of the cumulative hierarchy in within Axiomatic Set Theory.
+This turns out to be a characteristic property of general wellorderings.
+
+\begin{theorem}[Wellordered Recursion]\label{T:WellorderedRecursion}
+  Suppose \({\prec}\) is a wellordering of \(a\) and let \(b\) be the set of all functions from some initial segment of \((a,{\prec})\) into the set \(c:\) \[b = \bigcup_{x \in a} {}^{a[{\prec x}]}c.\]  
+  Given a function \(f:b \to c\) there is a unique function \(h:a \to c\) such that \[h(x) = f(h \res a[{\prec x}])\] for every \(x \in a.\)
+\end{theorem}
+
+\begin{problem}
+  Prove Theorem~\ref{T:WellorderedRecursion}.
+\end{problem}
+
+\begin{problem}
+  Let \({\prec}\) be a strict ordering of the set \(a,\) let \(b = \bigcup_{x \in a} {}^{a[{\prec x}]}2,\) and let \(f:b \to 2\) be defined by \[f(h) = \begin{cases}
+    0 & \text{when $(\forall x \in \dom(h))(h(x) = 0)$,} \\
+    1 & \text{when $(\exists x \in \dom(h))(h(x) = 1)$.}
+  \end{cases}\]
+  Show that if \((a,{\prec})\) is \emph{not} a wellordering then there are at least two functions \(h:a \to 2\) such that \(h(x) = f(h \res a[{\prec x}])\) for every \(x \in a.\) 
+\end{problem}
+
+In his development of set theory, Zermelo proved the following.
+
+\begin{theorem}[Wellordering Theorem]\label{T:Wellordering}
+  Every set admits a wellordering.
+\end{theorem}
+
+\noindent
+Unfortunately, we cannot prove this from the axioms for set theory we have listed so far!
+The Wellordering Theorem is one of the many equivalents of the Axiom of Choice, which we haven't included in our axioms for set theory.
+The reason for this omission is that the Axiom of Choice is different from the other axioms of set theory in that it is not motivated by the development of the hierarchy of sets from Modern Set Theory.
+The main motivation for the Axiom of Choice is pragmatic: it's a very useful assumption!
+
+The history of the Axiom of Choice is fascinating.
+The axiom has generated considerable debate, especially in the early days of set theory when we didn't know whether or not the Axiom of Choice was a consequence of the other axioms of set theory.
+\aside{More precisely, G{\"o}del showed that if a paradox could be derived from the axioms of set theory together with the Axiom of Choice, then a similar paradox could be derived without assuming the Axiom of Choice. Cohen then proved a similar statement for the negation of the Axiom of Choice.}
+The situation was first clarified in the 1940's by Kurt G{\"o}del who showed that the Axiom of Choice is compatible with the other axioms.
+Then, in the 1960's, Paul Cohen showed that the negation of the Axiom of Choice is similarly compatible with the other axioms.
+Thus, we now know that the Axiom of Choice is \strong{independent} of the axioms of set theory.
+The methods used by G{\"o}del and Cohen led to a long list of similar independence proofs.
+Famously, the Continuum Hypothesis is also known to be independent.
+
+What is the Axiom of Choice?
+\aside{The book \textit{Consequences of the Axiom of Choice}~\cite{HowardRubin:Consequences} by Paul Howard and Jean E. Rubin lists \(116\) equivalent formulations!}
+This is a tough question since the axiom has many equivalent formulations.
+One of these is Zermelo's Wellordering Theorem.
+\aside{Andreas Blass~\cite{Blass:Basis} has shown that the statement ``every vector space has a basis'' is equivalent to the Axiom of Choice!} 
+Some are statements in algebra, analysis, topology and other areas of mathematics that aren't obviously related to set theory.
+Ultimately, we will pick one formulation, one which is not difficult to write down in the first-order language of set theory.
+Before then, we will discuss some other equivalent forms so we can gain a better understanding of what the Axiom of Choice means.
+
+As the name suggests, the Axiom of Choice is about choosing things, specifically choosing elements from nonempty sets.
+This is not immediately obvious from Zermelo's Wellordering Theorem.
+Looking at Definition~\ref{D:Wellordering}, we see that a wellordering \({\prec}\) of a set \(a\) allows us to pick a specific element from any nonempty subset \(b\) of \(a,\) namely the unique \({\prec}\)-minimal element of \(b.\)
+Thus the wellordering \({\prec}\) allows us to define a \strong{choice function} \(c:\pow(a)\setminus\set{\emptyset}\to a,\) that is a function with the property that \(c(b) \in b\) for every nonempty subset \(b\) of \(a.\)
+It may seem intuitively obvious that there ought to be such a choice function but it is not at all clear how to prove this.
+To prove that such a choice function exists using the basic axioms of set theory, we need to come up with a formula \(\varphi(b,x)\) that describes the graph of \(c:\pow(a)\setminus\set{\emptyset}\to a.\)
+\aside{Convince yourself that you could write down such a formula using a wellordering \({\prec}\) of \(a.\)}
+We can write down such a formula using a wellordering \({\prec}\) of \(a\) as an auxiliary parameter, but it is by no means clear how to do this without any additional knowledge about the set \(a.\)
+In fact, the existence of such choice functions is another equivalent formulation of the Axiom of Choice, so Cohen's result shows that there is no way to come up with such a formula without some specific knowledge about \(a.\)
+
+The following problem shows that the exisence of choice functions implies Zermelo's Wellordering Theorem.
+
+\begin{problem}
+  Suppose \(c:\pow(a)\setminus\set{\emptyset}\to a\) is a choice function.
+  \begin{enumerate}[(a)]
+  \item Show that for every ordinal \(\alpha\) there is at most one function \(f:\alpha \to a\) with the property that \[f(\beta) = c(a \setminus \set{f(\gamma) : \gamma < \beta})\] for every \(\beta < \alpha.\)
+  \item Show that there is a unique ordinal \(\alpha\) for which there is a bijection \(f:\alpha \to a\) with the property above.
+  \item Conclude that there is a wellordering \({\prec}\) of the set \(a.\)
+  \end{enumerate}
+\end{problem}
+
+A \strong{family of sets} \((x_i)_{i \in a}\) is just another name for a function with domain \(a,\) the only difference is that we write \(x_i\) instead of \(x(i)\) for the value of the function at \(i \in a.\)
+
+\begin{definition}\label{D:Product}
+  The \strong{product} \(\prod_{i \in a} x_i\) of such a family is the collection of all functions \(f:a \to \bigcup_{i \in a} x_i\) such that \(f(i) \in x_i\) for every \(i \in a.\)
+\end{definition}
+
+\noindent
+Thus an element \(f \in \prod_{i \in a} x_i\) gives us a way of choosing one element from each \(x_i.\)
+This leads us to yet another formulation of the Axiom of Choice:
+
+\begin{theorem}[Multiplicative Axiom]\label{T:MultAx}
+  If \((x_i)_{i \in a}\) is a family of nonempty sets then \(\prod_{i \in a} x_i\) is nonempty.
+\end{theorem}
+
+\begin{problem}
+  Show that the Multiplicative Axiom is equivalent to the statement that every set \(a\) admits a choice function \(c:\pow(a)\setminus\set{\emptyset}\to a.\)
+\end{problem}
+
+We have now arrived at what we will take as the official meaning of the Axiom of Choice.
+
+\begin{axiom}[Axiom of Choice]\label{A:Choice}
+  If \(p\) is a set whose elements are nonempty and mutually disjoint, then there is a set \(t\) such that for every \(x \in p\) the intersection \(x \cap t\) contains one and only one element.
+\end{axiom}
+
+\noindent
+A set \(p\) whose elements are nonempty and mutually disjoint is called a \strong{partition} since it separates the underlying set \(\bigcup p\) into non-overlapping parts.
+A set \(t \subseteq \bigcup p\) such that \(x \cap t\) contains exactly one element from each part \(x \in p\) is called a \strong{transversal} of \(p.\)
+So a quick way to remember this form of the Axiom of Choice is: \textit{every partition has a transversal}.
+This is nice and short but it is not explicitly a first-order formula like the other axioms of set theory.
+
+\begin{problem}
+  Construct a first-order statement in the language of set theory which expresses the Axiom of Choice above.
+\end{problem}
+
+Given a partition \(p\) and a choice function \(c:\pow(a)\setminus\set{\emptyset}\to a\) where \(a = \bigcup p,\) the set \(t = \set{c(x) : x \in p}\) is a transversal of \(p.\)
+So the Axiom of Choice is a consequence of all the equivalent formulations we mentioned above.
+The next problem explains how to derive the Multiplicative Axiom from the Axiom of Choice.
+
+\begin{problem}
+  Suppose \((x_i)_{i \in a}\) is a family of nonempty sets.
+  Construct a partition \(p\) whose transversals are precisely the elements of \(\prod_{i \in a} x_i.\)
+\end{problem}
+
+\noindent
+We need one more in order to have a handful of equivalents of the Axiom of Choice.
+
+\begin{problem}
+  Show that the Axiom of Choice is equivalent to the statement that for every surjection \(f:a \to b\) there is an injection \(g:b \to a\) such that \(f(g(x)) = x\) for every \(x \in b.\)
+\end{problem}
+
+\end{unit}
+\endinput

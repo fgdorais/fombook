@@ -1,0 +1,233 @@
+\begin{unit}{The Set Theoretic Hierarchy}
+\theoremstyle{themph}
+\newtheorem*{boundedcomprehension}{Bounded Comprehension Principle}
+\newtheorem*{hierarchyprinciple}{Hierarchy Principle}
+\newtheorem*{inaccessibility}{Inaccessibility Principle}
+\newtheorem*{unboundedness}{Unboundedness Principle}
+\newtheorem*{wellfoundedness}{Wellfoundedness Principle}
+\newtheorem*{infinity}{Infinity Principle}
+
+The modern resolution of the paradoxes of Na{\"\i}ve Set Theory is to arrange sets along a timeline in such a way that a set that appears at time \(\alpha\) can only contain sets that appeared at earlier times.
+We will see that this simple idea rules out the existence Russell's paradoxical set \(R = \set{x : x \notin x},\) but it also rules out the existence of many other sets such as the universal set \(V\) of all sets.
+In order to realize the Foundational Thesis, we need to lay some ground rules that prevent the timeline restrictions from ruling out the existence of indispensable sets.
+To ensure this, we will adopt a maximalist approach: we will concieve of a set theoretic universe which is as rich and as large as possible.
+
+Individual times in our timeline are called \strong{ordinals}.
+The fundamental property of ordinals is that they are \strong{wellordered}.
+Clearly, the ordinal timeline should be ordered: one should be able to compare ordinals and tell whether an ordinal is before or after another ordinal.
+But we will need more, we need this ordering to be \strong{wellfounded}, making the ordinal timeline a \emph{well}ordering.
+
+\begin{wellfoundedness}\label{A:Wellfoundedness}
+  For any property \(\phi(\alpha)\) of ordinals, if there is an ordinal \(\alpha\) for which \(\phi(\alpha)\) holds, then there is a \textit{first} ordinal \(\alpha_0\) such that \(\phi(\alpha_0)\) holds.
+\end{wellfoundedness}
+
+\noindent
+The Wellfoundedness Principle may seem unusual at first but we will see that this concept is undoubtedly one of the most important to emerge from set theory.
+We will spend much time exploring and understanding wellfoundedness in various forms.
+To begin this endeavor, let's look at some simple consequences of the Wellfoundedness Principle.
+
+Implicitly, there must exist an ordinal, otherwise there wouldn't be much to talk about! 
+Therefore, by the Wellfoundedness Principle, there is a first ordinal which comes before all the others. 
+This is the ordinal \(0.\)
+We will see later that there is no largest ordinal.
+Indeed, we will see that the ordinal timeline is unfathomably long.
+As a consequence of this and wellfoundedness, for every ordinal \(\alpha\) there is a first ordinal that comes immediately after.
+This ordinal successor of \(\alpha\) will be denoted \(\alpha+1.\)
+
+The first few ordinals are \[0,\quad 1 = 0+1,\quad 2 = 1+1,\quad 3 = 2+1,\quad \ldots\]
+\aside{In fact, we will soon see that the finite ordinals consititute a model of \PA.}
+These are the \strong{finite ordinals}, which behave exactly like natural numbers.
+Since set theory is intended to capture infinite objects as well as finite objects, the ordinal timeline continues beyond the finite ordinals.
+The first \strong{transfinite ordinal} is called \(\omega;\) this is the first ordinal that comes after all the finite ordinals.
+The existence of transifinite ordinals like \(\omega\) is a standalone hypothesis about the ordinal timeline.
+
+\begin{infinity}
+  There is an ordinal which is neither the first ordinal nor the successor of any ordinal.
+\end{infinity}
+
+\noindent
+An ordinal that is neither the first ordinal nor the successor of any ordinal is called a \strong{limit ordinal}.
+The first limit ordinal is \(\omega\) since all prior ordinals are either \(0\) or ordinal successors.
+\aside{Since the Infinity Principle implies the existence of an ordinal, it also implies the existence of \(0\) as discussed above, as well as the existence of all other finite ordinals.}
+Thus, the Infinity Principle along with wellfoundedness does indeed imply the existence of \(\omega.\)
+
+Because the ordinals are unbounded, \(\omega\) is not the last ordinal: the timeline continues with \[\omega+1, \quad \omega+2,\quad \omega+3, \quad\ldots\]
+The next ordinal is \(\omega+\omega = \omega\cdot2,\) which is the second limit ordinal.
+The ordinal timeline then continues
+\[\omega\cdot2,\omega\cdot2+1,\ldots,
+\omega\cdot3,\omega\cdot3+1,\ldots,
+\omega\cdot4,\omega\cdot4+1,\ldots\]
+which are immediately followed by \(\omega\cdot\omega = \omega^2,\) the first limit of limit ordinals.
+Time goes on,
+\[\omega^2+1,\omega^2+2,\dots,
+\omega^2+\omega,\dots, 
+\omega^2+\omega\cdot2,\dots,
+\omega^2+\omega\cdot3,\dots\] 
+up to \(\omega^2+\omega^2 = \omega^2\cdot2,\) and then 
+\[\omega^2\cdot2+1,\dots,
+\omega^2\cdot3,\dots,
+\omega^3,\dots,\omega^3\cdot2,\dots
+\omega^4,\dots,
+\omega^5,\dots\]
+up to \(\omega^\omega.\)
+The timeline goes on but we eventually run out of arithmetic-like notations for ordinals.
+The first ordinal after \[\omega, \omega^\omega, \omega^{\omega^\omega}, \dots\] is called \(\varepsilon_0.\)
+This ordinal has the curious property that \(\omega^{\varepsilon_0} = \varepsilon_0.\)
+The next ordinal with this property is called \(\varepsilon_1,\) which is much larger than \(\varepsilon_0,\) but much smaller than \[\varepsilon_2,\varepsilon_3,\dots,\varepsilon_{\omega},\varepsilon_{\omega+1},\dots,\varepsilon_{\omega^\omega},\dots,\varepsilon_{\varepsilon_0},\dots\]
+\aside{All the ordinals mentioned here are countable ordinals, so they are much smaller than \(\omega_1,\) the first uncountable ordinal, and there are still larger ordinals beyond that.}
+We could go on this way for a while, but no matter how many new notations we create for still larger ordinals, we will not get anywhere near the end of of the ordinal timeline!
+
+
+
+Before we get lost walking along the ordinal timeline, let's see how sets enter the picture.
+Since every set \(x\) appears somewhere along the ordinal timeline, it follows from the Wellfoundedness Principle that there is a first ordinal time at which \(x\) appears, this is the set \(x\)'s \strong{birthday} or \strong{rank}, which is denoted \(\rank(x).\)
+The idea that sets can only contain sets born at an earlier time leads to the following:
+
+\begin{hierarchyprinciple}
+  For all sets \(x\) and \(y,\) if \(x \in y\) then \(\rank(x) < \rank(y).\)
+\end{hierarchyprinciple}
+
+\noindent
+In particular, we can never have \(x \in x,\) so Russell's paradoxical set \(R,\) if it existed, would simply be the universe \(V\) of all sets, which also isn't a set since we cannot have \(V \in V.\)
+
+To create new sets from old, we replace the ill-fated principle of Unrestricted Comprehension by the following tamer variant.
+
+\begin{boundedcomprehension}
+  For every property \(\phi(x)\) and every ordinal \(\alpha,\) the set \[\set{x : \rank(x) < \alpha \land \phi(x)}\] exists at time \(\alpha.\)
+\end{boundedcomprehension}
+
+\noindent
+This is the strongest form of comprehension that doesn't violate the Hierarchy Principle.
+As a special instance of Bounded Comprehension, we can always form the set \[V_\alpha = \set{x : \rank(x)<\alpha}\] of all sets born before a given ordinal time \(\alpha.\)
+This gives us an increasing hierarchy of larger and larger sets which together comprise all sets --- this is the \strong{cumulative hierarchy of sets}.
+
+Let's try to get a picture of what the first few stages of this hierarchy look like.
+Of course, \(V_0 = \varnothing\) since no set can be born before time \(0.\)
+The Hierarchy Principle ensures that the empty set is the only set born at time \(0\) and therefore \(V_1 = \set{\varnothing}.\)
+Since \(\set{\varnothing}\) is not empty, now have two sets, which are precisely the elements of \(V_2 = \set{\emptyset,\set{\emptyset}}.\)
+\aside{The size \(v_n\) of \(V_n\) grows very fast: \(v_0 = 0,\) \(v_1 = 1,\) \(v_2 = 2,\) \(v_3 = 4,\) \(v_4 = 16,\) and in general \(v_{n+1} = 2^{v_n}.\)}
+Next, we obtain all the possible subsets of \(V_2\): 
+\[V_3 = \set{\emptyset,\set{\emptyset},\set{\set{\emptyset}},\set{\emptyset,\set{\emptyset}}}.\]
+This is a general fact about the cumulative hierarchy: \(V_{\alpha+1}\) is the \strong{powerset} of \(V_\alpha,\) i.e., the set of all subsets of \(V_\alpha.\)
+
+The set \(V_\omega\) consists of all \emph{hereditarily finite sets}: finite sets, whose elements are themselves finite sets, whose elements are in turn finite sets, whose elements are\ldots{}
+These are precisely the sets which could be written using only braces (`\(\}\)' and `\(\{\)'), commas (`\(,\)'), and (optionally) `\(\varnothing\)', assuming an unlimited supply of writing medium and tools.
+The first infinite sets, in particular \(V_\omega\) itself, appear at time \(\omega.\)
+The first uncountable sets appear at time \(\omega+1,\) and ever larger and more complicated sets keep appearing as time goes on\ldots
+
+
+\begin{theorem}\label{T:RankFormula}
+  The birthday of a set \(x\) is the first ordinal which is greater than all the birthdays of elements of \(x.\)
+  In other words, \[\rank(x) = \sup_{y \in x}\;(\rank(y)+1).\]
+\end{theorem}
+
+\begin{problem}
+  Prove Theorem~\ref{T:RankFormula}.
+\end{problem}
+
+We can often use Theorem~\ref{T:RankFormula} to find precise values for the rank of certain sets.
+For example, \(\rank(\varnothing) = 0,\) \(\rank(\set{\varnothing}) = 1,\) \(\rank(\set{\set{\varnothing}}) = 2,\) etc.
+
+\begin{problem}
+  Show that \[\rank(x \cup y) = \max(\rank(x),\rank(y))\] and \[\rank(\set{x,y}) = \max(\rank(x),\rank(y))+1.\]
+  Can you find a similar formula for \(\rank(x \cap y)\)?
+  Can you find an upper bound for \(\rank(x \cap y)\)?
+\end{problem}
+
+\begin{problem}
+  For each natural number \(n,\) let \[x_n = \set{x_{m_0},x_{m_1},\dots,x_{m_{k-1}}}\] where \(n = 2^{m_0}+2^{m_1}+\cdots+2^{m_{k-1}}\) and \(m_0 < m_1 < \cdots < m_{k-1}.\) Thus
+  \[\begin{array}{r@{\;=\;}l} 
+    x_0 & \set{} = \varnothing \\
+    x_1 & \set{x_0} = \set{\varnothing} \\
+    x_2 & \set{x_1} = \set{\set{\varnothing}} \\ 
+    x_3 & \set{x_0,x_1} = \set{\varnothing,\set{\varnothing}} \\ 
+    x_4 & \set{x_2} = \set{\set{\set{\varnothing}}}
+  \end{array}\]
+  and so on. Show that \(V_\omega = \set{x_0,x_1,x_2,\ldots}.\)
+\end{problem}
+
+\noindent
+The new sets born at time \(\omega\) are the infinite sets whose elements are all hereditarily finite.
+For example, the set \[\set{\varnothing,\set{\varnothing},\set{\set{\varnothing}},\set{\set{\set{\varnothing}}},\ldots}\]
+is a set born at time \(\omega.\)
+All sets in \(V_{\omega+1}\) are countable since there are only countably many hereditarily finite sets.
+The first uncountable set is born at time \(\omega+1\); larger and larger sets are born at each new stage of the cumulative hierarchy.
+
+You might find it disconcerting to define the universe of sets in terms of a preexisiting object, namely the ordinal timeline.
+As it turns out, the ordinals are sets too:
+ 
+\begin{definition}\label{D:OrdinalSet}
+  Each ordinal \(\alpha\) is the set of all smaller ordinals, i.e.\ \(\alpha = \set{\beta: \beta < \alpha}.\)
+\end{definition}
+ 
+\noindent
+So \(0 = \varnothing\) since there is no ordinal smaller than \(0.\) 
+Then 
+\[\begin{aligned}
+  1 &= \set{0} = \set{\varnothing}, \\
+  2 &= \set{0,1} = \set{\varnothing,\set{\varnothing}}, \\
+  3 &= \set{0,1,2} = \set{\varnothing,\set{\varnothing},\set{\varnothing,\set{\varnothing}}}, \\
+\end{aligned}\]
+and after a while
+\[\begin{aligned}
+  \omega &= \set{0,1,2,3,\dots}, \\
+  \omega+1 &= \set{0,1,2,3,\dots,\omega}, \\
+  \omega+2 &= \set{0,1,2,3,\dots,\omega,\omega+1},
+\end{aligned}\]
+and so on\ldots{}
+Note that inequality \(\beta < \alpha\) is then the same as \(\beta \in \alpha\)!
+
+\begin{problem}
+  Prove the following facts about ordinals:
+ \[\alpha+1 = \alpha\cup\set{\alpha}, \qquad \min(\alpha,\beta) = \alpha \cap \beta, \qquad\max(\alpha,\beta) = \alpha \cup \beta.\]
+\end{problem}
+
+Wait a minute\ldots\ Is Definition~\ref{D:OrdinalSet} even a definition?
+We're defining ordinals in terms of ordinals --- isn't that circular?
+Yes and no.
+We concieved the hierarchy of sets assuming the existence of the ordinal timeline and then we define the ordinal timeline in terms of the sets.
+This is problematic and, as we will see in the next two units, resolving this conundrum is the main difficulty for the development of axiomatic set theory.
+However, Definition~\ref{D:OrdinalSet} always makes sense.
+That is, the definition assigns a unique set to every ordinal.
+
+\begin{problem}\label{P:OrdinalRank}
+  Suppose \(\varphi(x)\) is a property that holds precisely when the set \(x\) corresponds to an ordinal in the sense of Definition~\ref{D:OrdinalSet}.
+  \aside{You will need to use the Wellfoundedness Principle to solve this problem\ldots}
+  Show that \[\alpha = \set{x : \rank(x) < \alpha \land \varphi(x)}\] and therefore that \(\rank(\alpha) = \alpha\) for every ordinal \(\alpha.\)
+\end{problem}
+
+\begin{problem}\label{P:OrdPA}
+  \aside{To prove that induction holds for a property \(\varphi(n),\) consider the set \(\set{n : \lnot\varphi(n)}.\)}
+  Show that the set \(\omega\) along with \(0 = \varnothing\) and \(n' = n\cup\set{n}\) is a model of \PA.
+\end{problem}
+
+At this point, we have met many ordinals, including some rather large ones like \(\varepsilon_0\) and beyond. 
+To justify these ordinals, we used the intuitive idea that the ordinal timeline ought to be endless.
+The Infinity Principle and the mere idea that there is no largest ordinal justifies the existence of \[0,1,2,\ldots,\omega,\omega+1,\ldots,\] but not the existence \(\omega+\omega.\)
+We need a principle that justifies the existence of \(\omega+\omega,\omega^2,\varepsilon_0\) and still larger ordinals.
+
+So how long should the ordinal timeline be?
+To ensure that all the set theoretic hierarchy contains every set we could possibly ever want, the ordinal timeline should be unfathomably long.
+Because we can concieve of \(\varepsilon_0\) as the limit of the sequence \[\omega,\omega^\omega,\omega^{\omega^\omega},\omega^{\omega^{\omega^\omega}},\ldots\]
+the ordinal \(\varepsilon_0\) must exist.
+Indeed, \(\varepsilon_0\) is a set we could want and, by Problem~\ref{P:OrdinalRank}, this is only possible if \(\varepsilon_0\) is part of the ordinal timeline.
+Extrapolating from this, there should be no way to use a set to describe how long the ordinal timeline is.
+This is exactly the idea that our final principle intends to capture.
+
+\begin{inaccessibility}
+  If \(x\) is a set and \(\varphi(y,\beta)\) is a property such that for every \(y \in x\) there is an ordinal \(\beta\) such that \(\varphi(y,\beta)\) holds, then there is an ordinal \(\alpha\) such that for every \(y \in x\) there is a \(\beta < \alpha\) such that \(\varphi(y,\beta)\) holds.
+\end{inaccessibility}
+
+We can use the Inaccessibility Principle to show that the ordinal timeline is unbounded and that all ordinals mentioned so far exist.
+
+\begin{problem}
+  Show that the ordinal timeline is unbounded: for every ordinal \(\beta\) there is an ordinal \(\alpha\) such that \(\beta < \alpha.\)
+\end{problem}
+
+\begin{problem}
+  Argue that there is a property \(\varphi(n,\alpha)\) that holds precisely when \(n \in \omega\) and \(\alpha = \omega+n.\)
+  Use this to show that \(\omega+\omega\) exists.
+\end{problem}
+
+\end{unit}
+\endinput

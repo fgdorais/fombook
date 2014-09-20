@@ -1,0 +1,237 @@
+\begin{unit}{Axiomatic Set Theory, Part II}
+
+To ensure that Axiomatic Set Theory does match the intended meaning of Modern Set Theory, we need to verify that the five basic principles below can be recovered from the axioms for set theory.
+\begin{itemize}
+\item[] The Bounded Comprehension Principle
+\item[] The Hierarchy Principle
+\item[] The Infinity Principle
+\item[] The Inaccessibility Principle
+\item[] The Wellfoundedness Principle
+\end{itemize}
+
+\section{Ordinals}
+
+Our first task is to find a formula that will allow us to distinguish ordinals from other sets.
+The key to do this rests in the following notion.
+
+\begin{definition}\label{D:Transitive}
+  A set \(x\) is \strong{transitive} if every element of \(x\) is a subset of \(x.\)
+\end{definition}
+
+\begin{problem}
+  Write a formula \(\operatorname{trans}(x)\) in the language of set theory such that \(\operatorname{trans}(x)\) holds if and only if \(x\) is transitive.
+\end{problem}
+
+\noindent
+The surprising characterization of ordinals is:
+
+\begin{definition}\label{D:Ordinal}
+  An \strong{ordinal} is a transitive set all of whose elements are also transitive sets.
+\end{definition}
+
+\noindent
+So the formula \(\operatorname{ord}(x)\) defined by \[\operatorname{trans}(x) \land \forall y(y \in x \lthen \operatorname{trans}(y))\] will allow us to distinguish ordinals from other sets.
+Let's first check that ordinals have some properties that we expect from ordinals.
+
+\begin{problem}
+  Using Definition~\ref{D:Ordinal}.
+  \begin{enumerate}[(a)]
+  \item Show that \(\varnothing\) is an ordinal.
+  \item Show that if \(\alpha\) is an ordinal then so is \(\alpha \cup \set{\alpha}.\)
+  \item Show that if \(\alpha\) and \(\beta\) are ordinals then so are \(\alpha \cup \beta\) and \(\alpha \cap \beta.\)
+  \item Show that if \(x\) is a set of ordinals then \(\alpha = \bigcup x\) is an ordinal.
+  \end{enumerate}
+\end{problem}
+
+The following theorem ensures that ordinals can be used as a wellfounded timeline.
+
+\begin{theorem}\label{T:Ordinal}
+  The ordinals are totally ordered by the membership relation \(\in\) and this ordering is wellfounded.
+\end{theorem}
+
+\begin{problem}
+  Prove Theorem~\ref{T:Ordinal}:
+  \begin{enumerate}[(a)]
+  \item Show that if \(\alpha,\beta,\gamma\) are ordinals such that \(\alpha \in \beta\) and \(\beta \in \gamma\) then \(\alpha \in \gamma.\)
+  \item Show that if \(\varphi(\alpha)\) is a formula which holds at some ordinal, then there is an ordinal \(\alpha\) such that \(\varphi(\alpha)\) holds but \(\varphi(\beta)\) fails for every \(\beta \in \alpha.\)
+    [\textit{Hint}: Use the Regularity Axiom.]
+  \item Show that if \(\alpha,\beta\) are ordinals then either \(\alpha \in \beta\) or \(\alpha = \beta\) or \(\alpha \ni \beta.\)
+    [\textit{Hint}: Use part~(b).]
+  \end{enumerate}
+\end{problem}
+
+Now that we have recovered ordinals, we can verify that \(\omega\) exists.
+
+\begin{problem}
+  Consider the generalized intersection \[\omega = \bigcap \set{x : \varnothing \in x \land \forall y(y \in x \lthen y \cup \set{y} \in x)}.\]
+  \begin{enumerate}[(a)]
+  \item Show that \(\omega\) is a set.
+  \item Show that every element of \(\omega\) is an ordinal.
+  \item Show that \(\omega\) is transitive.
+  \item Conclude that \(\omega\) is the first limit ordinal.
+  \end{enumerate}
+\end{problem}
+
+\section{Functions and Recursion}
+
+Some time ago, we discussed the Recursion Principle in the context of artithmetic.
+At that time, we used an informal version of the concept of function.
+In set theory, it is customary to formalize functions with their graphs.
+
+\begin{definition}
+  A \strong{set function} is a set \(f\) whose elements are all ordered pairs and such that if \((y,x), (z,x) \in f\) then \(y = z.\)
+  We then write \(y = f(x)\) to signify that \((y,x) \in f.\)
+\end{definition}
+
+\noindent
+Before discussing recursion in the context of set theory, we need to develop some tools to handle set functions.
+
+\begin{problem}
+  Show that if \(f\) is a set function then its domain and range \[\dom(f) = \set{x : \exists y\,(y,x) \in f}, \qquad \rng(f) = \set{y : \exists x\,(y,x) \in f}\] are sets.
+\end{problem}
+
+When we discussed functions in the context of arithmetic, we only argued that they were well defined. 
+For example, for addition, we argued that the recursive equations \[m + 0 = m \qquad\text{and}\qquad m + (n + 1) = (m + n) + 1\] uniquely determine all values of this function.
+In the context of set theory, we also need to argue that the graph \(\set{(m+n,m,n) : m, n \in \omega}\) is a set.
+The next result ensures that if we can describe the graph of a function using a formula and the domain of this function is a set, then the graph of this function is a set.
+
+\begin{theorem}\label{T:FunctionDefinition}
+  Suppose \(\varphi(x,y)\) is a formula and \(a\) is a set such that \[\begin{gathered}
+    \forall x (x \in a \lthen \exists y \varphi(x,y)) \quad\text{and}\\
+    \forall x \forall y \forall z(x \in a \land \varphi(x,y) \land \varphi(x,z) \lthen y = z),
+  \end{gathered}\] then \(f = \set{(y,x) : x \in a \land \varphi(x,y)}\) is a set function with domain \(a.\)
+\end{theorem}
+
+\begin{problem}
+  Prove Theorem~\ref{T:FunctionDefinition}.
+  (\textit{Hint}: Use the Collection Axiom!)
+\end{problem}
+
+We are now ready to talk about recursion in the context of set theory.
+One of the most general formulations is the following.
+
+\begin{theorem}[Finite Recursion Principle]\label{T:FiniteRecursion}
+  Suppose \(\varphi(x,y)\) is a formula such that \[\forall x \exists y \varphi(x,y) \quad\text{and}\quad \forall x \forall y \forall z(\varphi(x,y) \land \varphi(x,z) \lthen y = z).\]
+  Given any set \(x_0,\) there is a \emph{unique} function \(h\) with domain \(\omega\) such that \[h(0) = x_0 \quad\text{and}\quad \varphi(h(n),h(n+1))\ \text{for every}\ n \in \omega.\] 
+\end{theorem}
+
+\noindent
+We now want to generalize this to transfinite ordinals.
+The main difficulty with this is that some transfinite ordinals like \(\omega\) are not successors so we can't simply require that \(h(\omega)\) is related to the previous value of \(h\) via \(\varphi(x,y)\) since there is no previous value.
+To get around this problem, we instead require \(h(\alpha)\) to be related to \emph{all} previous values in a specific way.
+Specifically, that \(h(\alpha)\) is related to the restriction \[h \res \alpha = \set{(y,x) \in h :  x \in \alpha}\] via \(\varphi(x,y).\)
+
+\begin{theorem}[Transfinite Recursion Principle]\label{T:TransfiniteRecursion}
+  Suppose \(\varphi(x,y)\) is a formula such that \[\forall x \exists y \varphi(x,y) \quad\text{and}\quad \forall x \forall y \forall z(\varphi(x,y) \land \varphi(x,z) \lthen y = z).\]
+  For every ordinal \(\alpha,\) there is a \emph{unique} function \(h\) with domain \(\alpha\) such that \(\varphi(h \res \beta,h(\beta))\) for every \(\beta \in \alpha.\) 
+\end{theorem}
+
+\noindent
+The following problem is useful to understand how transfinite recursion works.
+
+\begin{problem}
+  Prove Theorem~\ref{T:FiniteRecursion} using Theorem~\ref{T:TransfiniteRecursion}.
+\end{problem}
+
+The proof of the Transfinite Recursion Principle is very similar to our original proof of the Finite Recursion Principle.
+
+\begin{problem}\label{X:TransfiniteRecursion}
+  Let \(\varphi(x,y)\) be a formula as in the statement of Theorem~\ref{T:TransfiniteRecursion}.
+  Let us say that a set function \(h\) is a \emph{solution} if the domain of \(h\) is an ordinal and \(\varphi(h \res \gamma,h(\gamma))\) holds for every \(\gamma \in \dom(h).\)
+  \begin{enumerate}[(a)]
+  \item Show that if \(h\) and \(h'\) are two solutions then \(h(\gamma) = h'(\gamma)\) for all \(\gamma \in \dom(h) \cap \dom(h').\)
+  \item Show that if \(\alpha\) is an ordinal and there is a solution \(h\) with domain \(\alpha\) then there is also a solution \(h'\) with domain \(\alpha+1.\)
+  \item Show that if \(\alpha\) is a limit ordinal and for every \(\beta \in \alpha\) there is a solution \(h_\beta\) with domain \(\beta\) then there is a solution \(h\) with domain \(\alpha.\)
+  \item Conclude that for every ordinal \(\alpha\) there is a unique solution \(h\) with domain \(\alpha.\)
+  \end{enumerate}
+\end{problem}
+
+\section{The Cumulative Hierarchy}
+
+The levels \(V_\alpha\) of the cumulative hierarchy can be defined by transfinite recursion.
+As it is often the case, it is useful to break the recursive definition into three cases depending on whether \(\alpha\) is the initial ordinal, a successor ordinal, or a limit ordinal: \[V_\alpha = \begin{cases}
+  \varnothing & \text{if $\alpha = 0$,} \\
+  \pow(V_\beta) & \text{if $\alpha = \beta+1$,} \\
+  \bigcup_{\beta \in \alpha} V_\beta & \text{otherwise.}
+\end{cases}\]
+In order to make this definition fit Theorem~\ref{T:TransfiniteRecursion} we need to find a formula \(\varphi(x,y)\) such that: 
+\begin{itemize}
+\item \(\forall x \exists y \varphi(x,y),\) 
+\item \(\forall x \forall y \forall z(\varphi(x,y) \land \varphi(x,z) \lthen y = z),\) and 
+\item if \(v\) is a set function whose domain is an ordinal \(\alpha\) that satisfies \(\varphi(v \res \beta,v(\beta))\) for every \(\beta \in \alpha,\) then \[v(\alpha) = \begin{cases}
+  \varnothing & \text{if $\alpha = 0$,} \\
+  \pow(v(\beta)) & \text{if $\alpha = \beta+1$,} \\
+  \bigcup_{\beta \in \alpha} v(\beta) & \text{otherwise.}
+\end{cases}\]
+\end{itemize}
+It will then follow that \(v(\beta) = V_\beta\) for every \(\beta \in \alpha.\)
+
+\begin{problem}
+  Using the pieces defined below, compose a formula \(\varphi(x,y)\) that satisfies the requirements described above.
+  \begin{enumerate}[(a)]
+  \item Show that there is a formula \(\operatorname{succ}(x,y)\) that holds precisely when \(x\) is an ordinal and \(y = x+1.\)
+  \item Show that there is a formula \(\operatorname{limit}(x)\) that holds precisely when \(x\) is a limit ordinal.
+  \item Show that there is a formula \(\operatorname{power}(x,y)\) that holds precisely when \(y = \pow(x).\)
+  \item Show that there is a formula \(\operatorname{union}(x,y)\) that holds precisely when \(y = \bigcup x.\)
+  \item Show that there is a formula \(\operatorname{pair}(x,y,z)\) that holds precisely when \(x = (y,z).\)
+  \item Show that there is a formula \(\operatorname{func}(x)\) that holds precisely when \(x\) is a set function.
+  \item Show that there is a formula \(\operatorname{domain}(x,y)\) that holds precisely when \(x\) is a set function and \(y = \dom(x).\)
+  \item Show that there is a formula \(\operatorname{range}(x,y)\) that holds precisely when \(x\) is a set function and \(y = \rng(x).\)
+  \item Show that there is a formula \(\operatorname{eval}(x,y,z)\) that holds precisely when \(x\) is a set function, \(y \in \dom(x),\) and \(z = x(y).\)
+  \end{enumerate}
+\end{problem}
+
+Since Theorem~\ref{T:TransfiniteRecursion} ensures that for every ordinal \(\alpha\) there is a function \(v\) with domain \(\alpha\) such that \(\varphi(v \res \beta, v(\beta)\) for every \(\beta \in \alpha,\) we conclude that the level \(V_\alpha\) exists for every ordinal \(\alpha.\)
+Moreover, we have a formula \(\operatorname{level}(\alpha,x)\) that holds precisely when \(\alpha\) is an ordinal and \(x = V_\alpha.\) 
+Using some convenient abbreviations, we can compose this formula as
+follows: 
+\begin{multline}
+  \operatorname{ord}(\alpha) \land \exists v (\operatorname{func}(v)
+  \land \dom(v) = \alpha+1\\\land \forall \beta(\beta \in \alpha+1
+  \lthen \varphi(v \res \beta, v(\beta))) \land x = v(\alpha)).
+\end{multline}
+
+\begin{problem}
+  Explain how to eliminate the abbreviations from the above description of \(\operatorname{level}(\alpha,x).\)
+  Would it be possible to write down the unabbreviated formula in a single page?
+\end{problem}
+
+Now that we have recovered the cumulative hierarchy, we can recover the birthday of a set \(x\) via \[\rank(x) = \alpha \liff x \in V_{\alpha+1} \land x \notin V_\alpha.\]
+But to ensure that every set does have a birthday, we need to prove that:
+
+\begin{theorem}\label{T:Cumul}
+  For every set \(x\) there is an ordinal \(\alpha\) such that \(x \in V_\alpha.\)
+\end{theorem}
+
+\noindent
+To prove this, we will need another useful fact.
+
+\begin{theorem}\label{T:Transitive}
+  Every set is contained in a transitive set.
+\end{theorem}
+
+Since each level \(V_\alpha\) of the cumulative hierarchy is a transitive set, it is easy to derive Theorem~\ref{T:Transitive} from Theorem~\ref{T:Cumul}, but since we plan on using Theorem~\ref{T:Transitive} to prove Theorem~\ref{T:Cumul} that would be circular.
+Fortunately, there is a simple direct proof of Theorem~\ref{T:Transitive}.
+
+\begin{problem}
+  Given a set \(x.\)
+  \begin{enumerate}[(a)]
+  \item Show that there is a set function \(h\) with domain \(\omega\) such that \[h(0) = \set{x} \quad\text{and}\quad h(n+1) = {\textstyle\bigcup h(n)}\ \text{for every}\ n \in \omega.\]
+  \item Show that \(\bigcup_{n<\omega} h(n)\) is a transitive set containing \(x.\)
+  \end{enumerate}
+\end{problem}
+
+\begin{problem}
+  The following steps outline a proof of Theorem~\ref{T:Cumul}.
+  Let \(x\) be a transitive set.
+  \begin{enumerate}[(a)]
+  \item Show that there is a set \(x'\) such that \(y \in x'\) if and only if \(y \in x \cap V_\alpha\) for some ordinal \(\alpha.\)
+  \item Show that  is an ordinal \(\alpha\) such that \(x' \subseteq V_\alpha.\)
+  \item Show that if \(y \in x\) and \(y \subseteq x'\) then \(y \in x'.\)
+  \item Show that \(x = x'\) and hence \(x \subseteq V_\alpha.\)
+  \item Conclude that every set belongs to some \(V_\alpha.\)
+  \end{enumerate}
+\end{problem}
+
+\end{unit}
+\endinput
