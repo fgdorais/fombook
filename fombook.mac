@@ -50,4 +50,19 @@
 \newcommand{\ZFC}{\ensuremath{\mathsf{ZFC}}}
 \newcommand{\curry}[1]{\check{#1}}
 \newcommand{\uncurry}[1]{\hat{#1}}
+\newcommand{\tal}[1]{\ifnum#1>0\prime\expandafter\tal\expandafter{\number\numexpr#1-1\expandafter}\fi}
+\newcommand{\nat}[1]{\ensuremath{\tal{#1}}}
+%\newcommand{\nat}[1]{\fbox{\phantom{b}\!$\tal{#1}$\!\phantom{q}}}
+\newcommand{\mathvisiblespace}{\mbox{\textvisiblespace}}
+\newcommand{\renum}[1]{\varphi_{#1}}
+\newcommand{\defn}{\equiv}
+\newcommand{\contr}{\leadsto}
+\newcommand{\type}[1]{{#1}\ \mathsf{type}}
+\newcommand{\elim}[1]{\mathbf{R}_{#1}}
+\newcommand{\ded}[2]{\begin{array}{c}{#1}\\\hline{#2}\end{array}}
+\newcommand{\Zero}{\mbox{\scshape o}}
+\newcommand{\Succ}{\mbox{\scshape s}}
+\newcommand{\List}[1]{\mathbf{L}{#1}}
+\newcommand{\Null}{\varepsilon}
+\newcommand{\Cons}{\operatorname{cons}\nolimits}
 \endinput
