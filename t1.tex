@@ -1,0 +1,233 @@
+\begin{unit}{The Category of Sets}
+
+One of the most influential developments in mathematics is the idea of a category.
+The category of sets is especially important and gives us a powerful new way of understanding the universe of set theory.
+The distinctive feature of the categorical view is the emphasis on functions between sets rather than the sets themselves.
+
+
+
+\begin{definition}\label{D:Product}
+  The (\strong{cartesian}) \strong{product} of two sets \(a\) and \(b\) is the set \[a \times b = \set{\seq{x,y} : x \in a \land y \in b}.\]
+  The associated \strong{canonical projections} are the functions \(\fst^{a,b}:a \times b \to a\) and \(\snd^{a,b}: a \times b \to b\) defined by \[\fst^{a,b}(\seq{x,y}) = x \quad\mbox{and}\quad \snd^{a,b}(\seq{x,y}) = y\] for all \(x \in a\) and \(y \in b,\) respectively.
+\end{definition}
+
+\noindent
+When clear from context, the superscripts are often omitted and we simply write \(\fst\) and \(\snd\) for the two canonical projections.
+We also simply write \(\fst(x,y)\) and \(\snd(x,y)\) instead of the pedantic notation \(\fst(\seq{x,y})\) and \(\snd(\seq{x,y}).\)
+
+There are many ways to define ordered pairs.
+We settled on Kuratowski's definition \(\seq{x,y} = \set{\set{x},\set{x,y}},\) but we could as well have used Weiner's definition \(\set{\set{\set{x},\varnothing},\set{\set{y}}}\) or Hausdorff's definition \(\set{\set{x,0},\set{y,1}}.\)
+The particular way in which ordered pairs and the product of two sets is defined is irrelevant so long as the following theorem is true.
+
+\begin{theorem}[Universal Property of Products]\label{T:UPP}
+  Given functions \(f: c \to a\) and \(g: c \to b\) there is a \emph{unique} function \(h: c \to a \times b\) such that \(f = \fst \circ h\) and \(g = \snd \circ h.\)
+  \[\xymatrix{
+    & c \ar@{.>}[dd]|{h} \ar[dl]_-{f} \ar[dr]^-{g} \\
+    a & & b \\
+    & a \times b \ar[ul]^-{\fst} \ar[ur]_-{\snd} 
+  }\]
+\end{theorem}
+
+\noindent
+In the context of Definition~\ref{D:Product}, the function \(h\) is simply defined by \(h(z) = \seq{f(z),g(z)}\) for all \(z \in c.\)
+However, from the categorical point of view, any set equipped with canonical projections that satisfy the universal property of Theorem~\ref{T:UPP} is a valid notion of product.
+
+\begin{problem}\label{P:UPP:Uniq}
+  Suppose \(a \times' b\) is a set equipped with canonical projections \(\fst':a \times' b \to a\) and \(\snd':a \times' b \to b\) in such a way that Theorem~\ref{T:UPP} is true.
+  \begin{enumerate}[(a)]
+  \item Show that the only function \(h:a \times' b \to a \times' b\) such that \(\fst' \circ h = \fst'\) and \(\snd' \circ h = \snd'\) is the identity function.
+  \item Show that there is a \emph{unique} bijection between \(a \times' b\) and \(a \times b\) such that the diagram\aside{An arrow diagram like this is \strong{commutative} if by composing the functions along any two directed paths with the same endpoints results in the same function.} \[\xymatrix{
+      & a \times' b \ar[dl]_-{\fst'} \ar[dr]^-{\snd'} \ar@{:}[dd] \\
+      a & & b \\
+      & a \times b \ar[ul]^-{\fst} \ar[ur]_-{\snd}
+    }\] commutes.
+  \end{enumerate}
+\end{problem}
+
+\noindent
+Thus the universal property of Theorem~\ref{T:UPP} defines the product \(a \times b\) up to a \emph{unique} isomorphism.
+%Theorem~\ref{T:UPP} completely describes the idea of product while Definition~\ref{D:Product} provides a realization of that idea.
+
+The drawback of the categorial view is that \(a \times b\) is not defined as a specific set, but this is compensated by several advantages.
+For example, \[a \times b \qquad\text{and}\qquad b \times a,\] similarly \[a \times (b \times c) \qquad\text{and}\qquad (a \times b) \times c,\] are equivalent for practical purposes.
+However, if we follow Definition~\ref{D:Product}, these are completely different sets.
+The categorical view allows us to precisely formulate what ``equivalent for practical purposes'' means.
+
+\begin{problem}\label{P:UPP:Arith}
+  \begin{enumerate}[\upshape(a)]
+  \item\label{C:UPP:Commutativity}
+    Show that for all sets \(a,\) \(b,\) there is a bijection between \(a \times b\) and \(b \times a\) such that the diagram \[\xymatrix{
+      & a \\
+      a \times b \ar[ru]^-{\fst} \ar[rd]_-{\snd} \ar@{:}[rr] && b \times a \ar[ld]^-{\fst} \ar[lu]_-{\snd}\\
+      & b
+    }\] commutes.
+  \item\label{C:UPP:Associativity}
+    Show that for all sets \(a,\) \(b,\) \(c,\) there is a unique bijection between \((a \times b) \times c\) and \(a \times (b \times c)\) such that the diagram
+    \[\xymatrix@C1em{
+      &(a \times b) \times c \ar[dl]_-{\fst} \ar[drrr]^-{\snd} \ar@{:}[rrrr] &&&& a \times (b \times c) \ar[dr]^-{\snd} \ar[dlll]_-{\fst} \\
+      a \times b \ar[rr]^-{\fst} \ar[drrr]_-{\snd} && a && c && b \times c \ar[ll]_-{\snd} \ar[dlll]^-{\fst} \\
+      &&& b 
+    }\]
+    commutes.
+  \end{enumerate}
+\end{problem}
+
+% \begin{problem}
+%   Verify the following identities using Theorem~\ref{T:UPP}.
+%   \begin{enumerate}[\upshape(a)]
+%   \item \((\fst^{a,b},\snd^{a,b}) = \id_{a \times b}.\)
+%   \item \((f,g) \circ h = (f\circ h, g \circ h).\)
+%   \end{enumerate}
+% \end{problem}
+
+%The dual operation to that of the product of two sets is that of the disjoint union of two sets.
+
+\begin{definition}\label{D:Coproduct}
+  The \strong{coproduct} (also known as the \strong{sum} and the \strong{disjoint union}) of two sets \(a\) and \(b\) is the set \[a + b = (\set0\times a) \cup (\set1\times b).\]
+  The associated \strong{canonical inclusions} are the functions \(\inl^{a,b}:a \to a+b\) and \(\inr^{a,b}: b \to a+b\) defined by \[\inl^{a,b}(x) = \seq{0,x} \quad\mbox{and}\quad \inr^{a,b}(y) = \seq{1,y}\] for all \(x \in a\) and \(y \in b,\) respectively.
+\end{definition}
+
+\noindent
+Again, when clear from context, we often omit the superscripts and simply write \(\inl\) and \(\inr\) for the two canonical inclusions.
+
+As for the product, there are countless ways to define the coproduct of two sets.
+If \(a\) and \(b\) happen to be disjoint, the union \(a \cup b\) works just as well as \(a + b\) for practical purposes.
+The particular way in which it is defined doesn't matter so long as the following theorem is true.
+
+\begin{theorem}[Universal Property of Coproducts]\label{T:UPS}
+  Given functions \(f: a \to c\) and \(g: b \to c\) there is a \emph{unique} function \(h: a + b \to c\) such that \(f = h \circ \inl\) and \(g = h \circ \inr.\)
+  \[\xymatrix{
+    & a + b \ar@{.>}[dd]|{h} \\
+    a \ar[ur]^-{\inl} \ar[dr]_-{f} & & b \ar[ul]_-{\inr} \ar[dl]^-{g} \\
+    & c 
+  }\]
+  % This unique function \(h\) is frequently denoted \([f,g].\)
+\end{theorem}
+
+\noindent
+In the context of Definition~\ref{D:Coproduct}, the unique function \(h:a + b \to c\) is defined by cases: \[h(z) = \begin{cases} 
+  f(\snd(z)) & \text{if $\fst(z) = 0$,} \\
+  g(\snd(z)) & \text{if $\fst(z) = 1$.}
+\end{cases}\]
+In fact, the idea of coproduct encapsulates the idea of defining functions by cases.
+
+Notice how similar the diagram of Theorem~\ref{T:UPS} is to that of Theorem~\ref{T:UPP}.
+The only essential difference is that the direction of the arrows are completely reversed; this is relationship is called \strong{duality}.
+\aside{The prefix `co' is commonly used to denote the dual of a concept, which explains the term \emph{co}product.}
+The coproduct is the dual of the product and because of this all the properties of the product hold just as well for coproducts provided the direction of arrows is systematically reversed.
+
+\begin{problem}
+  Formulate the duals of Problem~\ref{P:UPP:Uniq} and Problem~\ref{P:UPP:Arith}.
+  Then prove them without too much work by exploiting the idea of duality.
+\end{problem}
+
+% The uniqueness of \(h:a + b \to c\) in Theorem~\ref{T:UPS} is very important.
+
+% \begin{corollary}\label{C:UPS}\mbox{}
+%   \begin{enumerate}[\upshape(a)]
+%   \item\label{P:UPS:Commutativity} 
+%     For all sets \(a,\) \(b,\) there is a bijection from \(a + b\) onto \(b + a.\)
+%   \item\label{P:UPS:Associativity} 
+%     For all sets \(a,\) \(b,\) \(c,\) there is a bijection from \((a + b) + c\) onto \(a + (b + c).\)
+%   \end{enumerate}
+% \end{corollary}
+
+% \begin{problem}
+%   \begin{enumerate}[\upshape(a)]
+%   \item \([\inl^{a,b},\inr^{a,b}] = \id_{a+b}.\)
+%   \item \(h \circ [f,g] = [h \circ f, h \circ g].\)
+%   \end{enumerate}
+% \end{problem}
+
+
+% \begin{proof}
+%   We prove part~\eqref{P:UPS:Associativity} and leave part~\eqref{P:UPS:Commutativity} as an exercise to the reader.
+
+%   Consider the functions \[H = [[\inl^{a,b+c},\inr^{a,b+c}\circ\inl^{b,c}],\inr^{a,b+c} \circ \inr^{b,c}]: (a + b) + c \to a + (b + c)\] and \[H' = [\inl^{a+b,c} \circ \inl^{a,b},[\inl^{a+b,c}\circ\inr^{a,b},\inr^{a+b,c}]]: a + (b + c) \to (a + b) + c.\] 
+%   Note that \[\begin{aligned}
+%     H' \circ H \circ \inl^{a+b,c} 
+%     &= H' \circ [\inl^{a,b+c},\inr^{a,b+c}\circ\inl^{b,c}] \\
+%     &= [H' \circ \inl^{a,b+c},H' \circ \inr^{a,b+c}\circ\inl^{b,c}] \\
+%     &= [\inl^{a+b,c} \circ \inl^{a,b},[\inl^{a+b,c}\circ\inr^{a,b},\inr^{a+b,c}]\circ\inl^{b,c}] \\
+%     &= [\inl^{a+b,c} \circ \inl^{a,b},\inl^{a+b,c}\circ\inr^{a,b}] \\
+%     &= \inl^{a+b,c} \circ [\inl^{a,b},\inr^{a,b}] = \inl^{a+b,c}. \\
+%   \end{aligned}\]
+%   Also note that \[H' \circ H \circ \inr^{a+b,c} = H' \circ \inr^{a,b+c} \circ \inr^{b,c} = [\inl^{a+b,c}\circ\inr^{a,b},\inr^{a+b,c}] \circ \inr^{b,c} = \inr^{a+b,c}.\]
+%   It follows that \(H' \circ H = \id_{(a+b)+c}.\)
+%   A symmetric argument shows that \(H \circ H' = \id_{a+(b+c)}.\)
+% \end{proof}
+
+Certain properties of products and coproducts do not follow from the two universal properties.
+One such example is the following distributive law.
+
+\begin{theorem}\label{T:Distributivity}
+  For all sets \(a,\) \(b,\) \(c,\) there is a unique bijection between \((a + b) \times c\) and \((a \times c) + (b \times c)\) such that the diagram
+  \[\xymatrix{
+    & a \times c \ar[ld]_-{\inl\times\id}\ar[rd]^-{\inl} \\
+    (a + b) \times c \ar@{:}[rr] && (a \times c) + (b \times c) \\
+    & b \times c \ar[lu]^-{\inr\times\id}\ar[ru]_-{\inr} \\  
+  }\]
+  commutes.
+\end{theorem}
+
+% \begin{proof}
+%   The set \((a + b) \times c\) consists of all \(\seq{\seq{i,w},z}\) such that \[((i = 0 \land w \in a) \lor (i = 1 \land w \in b)) \land z \in c,\] equivalently \[(i = 0 \land w \in a \land z \in c) \lor (i = 1 \land w \in b \land z \in c).\]
+%   The set \((a \times c) + (b \times c)\) consists of all \(\seq{i,\seq{w,z}}\) such that \[(i = 0 \land \seq{w,z} \in a \times c) \lor (i = 1 \land \seq{w,z} \in b \times c),\] equivalently \[(i = 0 \land w \in a \land z \in c) \lor (i = 1 \land w \in b \land z \in c).\]
+%   It follows at once that the correspondence \(\seq{\seq{i,w},z} \mapsto \seq{i,\seq{w,z}}\) defines a bijection from \((a + b) \times c\) onto \((a \times c) + (b \times c).\)
+% \end{proof}
+
+\begin{problem}\mbox{}\aside{The category of sets is just one example of a category. Some categories with products and coproducts satisfy distributivity, some satisfy the dual, some satisfy both and some satisfy neither.}
+  \begin{enumerate}[(a)]
+  \item Prove Theorem~\ref{T:Distributivity}.
+  \item Formulate the dual of Theorem~\ref{T:Distributivity} and show that it is false.
+  \item Argue that distributivity is not a consequence of the universal properties of products and coproducts.
+  \end{enumerate}
+\end{problem}
+
+There is one more important set operation that can be described by a universal property.
+
+\begin{definition}
+  The \strong{exponential} of two sets \(a\) and \(b\) is the set \[{}^ab = \set{f \subseteq b \times a: \mbox{$f$ is a function from $a$ to $b$}}.\]
+  The associated \strong{evaluation map} \(\eval^{a,b}:a \times {}^ab \to b\) is defined by \[\eval^{a,b}(x,f) = f(x)\] for all \(x \in a\) and \(f \in {}^ab.\)  
+\end{definition}
+
+\begin{theorem}\label{T:UPE}
+  Given a function \(f:a \times b \to c\) there is a \emph{unique} function \(h:a \to {}^bc\) such that \(f(x,y) = \eval(h(x),y)\) for all \(x \in a\) and \(y \in b.\)
+  \[\xymatrix{
+    a \times b \ar@{.>}[rr]^-{h \times \id_b} \ar[dr]_-{f} && {}^bc \times b \ar[dl]^-{\eval^{b,c}} \\
+    & c
+  }\]
+\end{theorem}
+
+\noindent
+\aside{The \(\lambda\)-notation is borrowed from the \(\lambda\)-calculus where \(\lambda\) is called the \emph{abstraction operator}.}%
+The unique function \(h\) from Theorem~\ref{T:UPE} is called the \strong{exponential adjoint} of \(f\) and it is often denoted \(\lambda_{y \in b} f(x,y).\)
+
+This exponential obeys the usual rules of exponents.
+
+\begin{problem}\mbox{}
+  \begin{enumerate}[\upshape(a)]
+  \item Use Theorem~\ref{T:UPP} to show that for all sets \(a,\) \(b,\) \(c,\) there is a bijection from \({}^ab\times{}^ac\) onto \({}^a(b \times c).\)
+  \item Use Theorem~\ref{T:UPS} to show that for all sets \(a,\) \(b,\) \(c,\) there is a bijection from \({}^ac\times{}^bc\) onto \({}^{(a+b)}c.\)
+  \item Use Theorem~\ref{T:UPE} to show that for all sets \(a,\) \(b,\) \(c,\) there is a bijection from \({}^{a\times b}c\) onto \({}^a({}^bc).\)
+  \end{enumerate}
+\end{problem}
+
+\begin{problem}\label{P:GenProd}
+  Recall that the product \(\prod_{i \in a} b_i\) of a family \((b_i)_{i \in a}\) of sets consists of all functions \(f:a \to \bigcup_{i \in a} b_i\) such that \(f(i) \in b_i\) for every \(i \in a.\)
+  Formulate an analogue of Theorem~\ref{T:UPP} for this more general notion of product.
+\end{problem}
+
+\begin{problem}\label{P:GenCoprod}
+  The coproduct \(\sum_{i \in a} b_i\) (also denoted \(\coprod_{i \in a} b_i\)) of a family \((b_i)_{i \in a}\) of sets consists of all pairs \(\seq{i,x}\) where \(i \in a\) and \(x \in b_i.\)
+  In other words, \[\textstyle\sum_{i \in a} b_i = \bigcup_{i \in a} \set{i}\times b_i.\]
+  Formulate an analogue of Theorem~\ref{T:UPS} for this more general notion of coproduct.  
+\end{problem}
+
+\begin{problem}
+  What are the generalized product and coproducts of Problem~\ref{P:GenProd} and Problem~\ref{P:GenCoprod} in the degenerate case where \(a = \empty\)?
+  Do the universal properties still hold in that case?
+\end{problem}
+
+\end{unit}
+\endinput

@@ -1,0 +1,122 @@
+\begin{unit}{Inductive Types}
+
+The prototypical example of an inductive type is the type of natural numbers.
+Before we introduce that idea, let's take a step back and think about natural numbers in the category of sets.
+Is it possible to describe the natural numbers using a universal property similar to those for products, coproducts and exponentials?
+
+As we saw in Chapter~I, Peano Arithmetic has two key components: zero and successor.
+The successor is a distinguished function \(\Succ:\N\to\N,\) which makes perfect sense in the categorical context.
+However, zero is a distinguished element of \(\N,\) which refers to the set-theoretic notion of membership.
+To make sense of this notion in the categorical context, we view elements of a set \(A\) as functions \(1 \to A,\) where the ordinal \(1\) is the prototypical set with one element.
+That way, we can view zero as a distinguished function \(\Zero:1\to \N\) which points to the zero element of \(\N.\)
+Using this trick, we can reformulate the Recursion Principle (Chapter~I, Theorem~\ref{T:Recursion}) in the category of sets.
+
+\begin{theorem}[Universal Property of Natural Numbers]\label{T:UPN}
+  Given \(x_0:1 \to A\) and \(f:A \to A,\) there is a unique \(h:\N\to A\) such that \(h \circ \Zero = x_0\) and \(h \circ \Succ = f \circ h.\)
+  \aside{Make sure you understand how Theorem~\ref{T:UPN} relates to the Recursion Theorem before moving on!}
+  \[\xymatrix@R1em{
+    & \N \ar@{.>}[dd]|-{h} & \N \ar@{.>}[dd]|-{h} \ar[l]_-{\Succ} \\
+    1 \ar[ur]^-{\Zero} \ar[dr]_-{x_0}  \\
+    & A & A \ar[l]^-{f}
+  }\]
+\end{theorem}
+
+\begin{problem}
+  Explain how Theorem~\ref{T:UPN} is related to the Recursion Principle.
+\end{problem}
+
+\begin{problem}
+  Formulate the Peano Categoricity Theorem (Chapter~I, Theorem~\ref{T:PeanoCategoricity}) in the category of sets.
+  Then prove it using the universal property of Theorem~\ref{T:UPN}.
+\end{problem}
+
+Our goal is to formulate the type of natural numbers in the context of Type Theory.
+So let's try to formulate rules that correspond to the universal property of Theorem~\ref{T:UPN}.
+To get started, we need a formation rule that merely declares the existence of the type of natural numbers:
+\aside{This is indeed a rule, it is a rule that has no hypotheses!}
+\[\ded{}{\type{\N}} \tag{$\N$-Form.}\]
+To populate the type \(\N,\) we have two introduction rules for zero and the successors.
+We no longer have to think of zero as a function \(1 \to \N\) since we can simply declare zero to be an object of type \(\N.\)
+\[\frac{}{0 : \N} \qquad \frac{t:\N}{t':\N} \tag{$\N$-Intro.}\]
+From these we successively derive the sequence of natural numbers \[0, \quad 1 \defn 0', \quad 2 \defn 1', \quad 3 \defn 2', \quad\ldots\] which populate the type \(\N.\)
+
+\begin{problem}
+  Derive a term for the successor function \(\Succ:\N\to\N.\)
+\end{problem}
+
+We now turn to the Recursion Principle, or rather the universal property of Theorem~\ref{T:UPN}.
+The universal property tells us exactly what rules we need for the type of natural numbers.
+\[\ded{r : A \to A \quad s : A}{\elim{\N}[r,s]:\N \to A} \tag{$\N$-Rec.}\]
+So, if we have a type \(A\) equipped with a distinguished function \(r: A \to A\) and a distinguished element \(s:A,\) then we have \(\elim{\N}[r,s]:\N \to A,\) which is intended to be the \(h:\N \to A\) from Theorem~\ref{T:UPN}.
+The requirements on \(h:\N \to A\) are captured by two computation rules:
+\[\begin{gathered}
+  \frac{r : A \to A \qquad s : A}{\elim{\N}[r,s](0) \defn s} \\[\jot]
+  \frac{r : A \to A \qquad s : A \qquad t : \N}{\elim{\N}[r,s](t') \defn r(\elim{\N}[r,s](t))}
+\end{gathered}\tag{$\N$-Comp.}\]
+
+\begin{problem}
+  Explain how every primitive recursive function can be faithfully interpreted in Type Theory. 
+\end{problem}
+
+The general pattern for inductive types is as follows:
+\begin{itemize}
+\item A formation rule to introduce the type.
+\item Some introduction rules that allow us to construct elements of that type.
+\item A recursion rule that allows us to construct functions from that type to similar types.
+\item Some computation rules that explain how the function obtained from the recursion rule applies to elements obtained from the introduction rules. 
+\end{itemize}
+One of the simplest inductive type is the \strong{unit type}, the type with exactly one element: 
+\[\ded{}{\type{1}} \tag{$1$-Form.}\]
+\[\ded{}{\star : 1} \tag{$1$-Intro.}\]
+\[\ded{t:A}{\elim1[t]:1 \to A} \tag{$1$-Rec.}\]
+\[\ded{t:A}{\elim1[t](\star) \defn t} \tag{$1$-Comp.}\]
+In terms of sets, the canonical interpretation of \(1\) is simply the ordinal \(1 = \set0\) and \(\star\) is its unique element, but any other singleton set would work just as well to interpret the unit type.
+
+\begin{problem}
+  What is the universal property of \(1\) in the context of the category of sets?
+\end{problem}
+
+\begin{problem}
+  \mbox{}\aside{This is often called the \strong{boolean type} and its elements are often called `true' and `false'.}%
+  Formulate rules similar to those of the unity type for the inductive type with exactly two elements.
+\end{problem}
+
+\begin{problem}
+  The unit type is simple because its introduction rules have no hypotheses.
+  The \strong{coproduct type} is a simple example of an inductive type where the introduction rules have hypotheses.
+  \[\ded{\type{A} \quad \type{B}}{\type{A + B}} \tag{$+$-Form.}\]
+  \[\ded{s : A}{\inl(s) : A + B} \qquad \ded{t : B}{\inr(t) : A + B} \tag{$+$-Intro.}\]
+  Complete the definition of coproduct types with recursion and computation rules that match the universal property of Theorem~\ref{T:UPS}.
+\end{problem}
+
+\begin{problem}
+  Product types are actually inductive types. What is the recursion rule for product types? 
+\end{problem}
+
+Another important example of inductive types are \strong{list types}.
+\[\ded{\type{A}}{\type{\List{A}}} \tag{$\List{}$-Form.}\]
+This type is intended to capture the idea of a finite list of elements of type \(A.\)
+It has two introduction rules corresponding to the empty list, which is denoted \(\Null,\) and another for appending one element to an existing list:
+\[\ded{}{\Null : \List{A}} \qquad \ded{t : A \quad u : \List{A}}{\Cons(t,u) : \List{A}} \tag{$\List{}$-Intro.}\]
+The recursion and computation rules for lists is similar to that for natural numbers:
+\[\ded{r:A \times B \to B \quad s:B}{\elim{\List{A}}[r,s]:\List{A}\to B} \tag{$\List{}$-Rec.}\]
+\[\begin{gathered}
+\ded{r:A \times B \to B \quad s:B}{\elim{\List{A}}[r,s](\Null) \defn s} \\  
+\ded{r:A \times B \to B \quad s:B \quad t : A \quad u:\List{A}}{\elim{\List{A}}[r,s](\Cons(t,u)) \defn r(t,\elim{\List{A}}[r,s](u))}
+\end{gathered} \tag{$\List{}$-Comp.}\]
+
+\begin{problem}
+  An important operation on list is \emph{concatenation}: putting one list at the end of another.
+  Formulate a term \(\operatorname{cat}:\List{A}\times\List{A} \to \List{A}\) that represents concatenation.
+\end{problem}
+
+\begin{problem}\mbox{}   
+  \begin{enumerate}[(a)]
+  \item Interpret list types in the category of sets and formulate their universal propery by analogy with Theorem~\ref{T:UPN}.
+  \item Using the universal property from part~(a) and that of Theorem~\ref{T:UPN} to show that \(\List{1}\) is isomorphic to \(\N\) in the category of sets.
+  \item Using the rules for natural numbers and list types, derive terms for the functions \(\List{1} \to \N\) and \(\N \to \List{1}\) you found in part~(b).
+  \end{enumerate}
+\end{problem}
+
+\end{unit}
+\endinput

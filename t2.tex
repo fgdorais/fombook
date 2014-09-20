@@ -1,0 +1,130 @@
+\begin{unit}{Type Theory}
+
+The universal properties of the category of sets actually apply to a variety of objects beyond sets.
+For example, the idea of product makes as much sense for in the category of computational tasks.
+In this category, tasks are the basic objects like sets are in the category of sets but rather than having elements, tasks have programs to realize them.
+If \(A\) and \(B\) are two such tasks then \(A \times B\) is the task that consists of performing both \(A\) and \(B.\)
+On the one hand, if \(s\) is a program to perform task \(A\) and \(t\) is a program to perform task \(B,\) we can combine these two programs into a program \(\seq{s,t}\) that performs task \(A \times B.\) 
+On the other hand, if we have a program \(u\) that performs the task \(A \times B\) then we can extract two programs from \(u,\) \(\fst(u)\) that performs task \(A\) and \(\snd(u)\) that performs task \(B.\)
+
+These two objects, \(\fst\) and \(\snd\) are themselves programs to perform tasks \(A \times B \to A\) and \(A \times B \to B,\) respectively.
+In general, the task \(A \to B\) consists of transforming a program realizing the task \(A\) into a program realizing the task \(B.\)
+This task \(A \to B\) plays the same role that the exponential plays in the category of sets: a function from a set \(A\) to a set \(B\) is a scheme for transforming elements of \(A\) into elements of \(B.\)
+This analogy between tasks and sets goes further and the universal properties of products and exponentials apply just as well to tasks as they do to sets.
+
+Such analogies abound and they have led to the abstract idea of types.
+Types are objects that have constituents, we write \(s:A\) to mean that \(s\) is a constituent of type \(A.\)
+One way to interpret types is as sets, where \(s:A\) simply means that \(s\) is an element of the set \(A.\)
+Another way to interpret types is as tasks, where \(s:A\) means that \(s\) is a program to realize task \(A.\)
+Yet another way to interpret types is as propositions, where \(s:A\) means that \(s\) is a proof of proposition \(A.\)
+Type Theory consists of rules that are common to all of these interpretations and more.
+As you read about type theory, it is good to keep in mind that types have multiple interpretations even though we will focus on the interpretation of types as sets.
+
+The rules of Type Theory involve three basic \strong{judgements}:
+\aside{We use \(\defn\) rather than \(=\) since the judgement \(s \defn t\) corresponds to the idea of \emph{definitional equality} --- that \(s\) and \(t\) are synonymous expressions --- rather than \emph{propositional equality} --- that \(s\) and \(t\) denote the same objects.}
+\[\type{A}, \qquad s:A, \qquad s \defn t.\]
+The first simply asserts that \(A\) is a type, the second asserts that \(s\) is a constituent of type \(A,\) and the third asserts that constituents \(s\) and \(t\) are the same.
+The rules all have the shape of a \strong{deduction} \[\ded{\text{hypotheses}}{\text{conclusion}}.\]
+These rules can be combined to derive more complex judgements in a manner very similar to how proofs allow us to draw complex conclusions using simple deductive steps.
+
+We will begin with one type \strong{formation rule}:
+\[\ded{\type{A} \qquad \type{B}}{\type{A \to B}} \tag{$\to$-Form.}\]
+The meaning of this rule is that if \(A\) and \(B\) are types then so is \(A \to B.\)
+The type \(A \to B\) is, as the notation suggests, intended to be the type of functions from \(A\) to \(B.\)
+So, if we think of \(A\) and \(B\) as sets, then we can think of \(A \to B\) as the exponential \({}^AB.\)
+
+The remaining rules for \(\to\) will explain how constituents \(s:A \to B\) are used.
+So how do we use functions?
+First and foremost, functions can be evaluated.
+That is, we can apply a function \(t:A \to B\) to an input \(s: A\) to obtain a value \(t(s) : B.\)
+%\aside{The term `elimination' indicates that \(A \to B\) occurs in the hypothesis but is absent from the conclusion.}
+This corresponds to an \strong{elimination rule}:%\aside{This rule is often called the \emph{application rule}.}:
+\[\ded{s : A \qquad t : A \to B}{t(s) : B} \tag{$\to$-Elim.}\]
+While the notation suggests that \(t(s)\) is the result of applying the function \(t\) to \(s,\) keep in mind that the interpretations of type theory are vast and varied so it is better to think of \(\mathvisiblespace(\mathvisiblespace)\) as an \strong{application operator}. 
+For example, under the set-theoretic interpretation, the application operator corresponds to the evaluation map \(\eval:A \times {}^AB  \to B\) of Theorem~\ref{T:UPE}.
+Other interpretations of type theory will define the application operator in different ways.
+
+Next, we need an \strong{introduction rule}, which tells us how to \emph{build} elements of a given type.
+To understand this rule, keep in mind that the rules of type theory deal with \emph{expressions}.
+So when we write \(t:B,\) the element `\(t\)' is quite possibly a complex expression that involves type variables and other constructs.
+For example, we could have \(t \defn z(x)(y)\) where \(x:A,\) \(y:C\) and \(z:A \to C \to B\) are three variable symbols of the given types.
+ %\aside{This rule is often called the \emph{abstraction rule}.}
+\[\frac{t : B}{\lambda_{x:A}\,t : A \to B} \tag{$\to$-Intro.}\]
+\aside{Note that \(\lambda_{x:A} t\) no longer depends on the variable \(x:A.\)
+The \strong{abstraction operator} \(\lambda_{x:A}\) behaves much like a universal quantifier and we say that the variable \(x:A\) is \strong{bound} in the term \(\lambda_{x:A} t.\)}
+As the notation suggests, \(\lambda_{x:A}\,t\) corresponds to the exponential adjoint from Theorem~\ref{T:UPE}.
+The term \(t:B\) is interpreted as a function of the variable \(x:A\) even if that variable doesn't actually occur in \(t.\)
+Similar to Theorem~\ref{T:UPE}, the abstraction operator takes the expression \(t\) and produces a name \(\lambda_{x:A}t : A \to B\) for the function from \(A\) to \(B\) defined by this term.
+
+At this point, we are well on our way to translating the universal property of Theorem~\ref{T:UPE} in terms of rules.
+The universal property explains how the evaluation map and the exponential adjoint are related.
+In type theory, this relationship takes the form of a \strong{computation rule}, which tells us how the elimination rules applies to objects given by the introduction rule:\aside{The act of applying this rule is often called \strong{\(\beta\)-reduction}.}
+\[\ded{s: A \qquad t : B}{(\lambda_{x:A} t)(s) \defn t[x/s]} \tag{$\to$-Comp.}\]
+%\aside{An occurrence of a variable \(x:A\) in a term is \strong{free} if it is not bound  instance of \(x\) in \(t\) by an abstraction operator \(\lambda_{x:A}\) or a similar construct.}%
+where \(t[x/s]\) denotes the result of substituting every \emph{free} occurrence of \(x\) in \(t\) by the term \(s.\)
+
+There is one more component to Theorem~\ref{T:UPE}: the exponential adjoint is \emph{unique}.
+In type theory, this is captured by the following uniqueness rule:\aside{The act of applying this rule is often called \strong{\(\eta\)-reduction}.}
+\[\ded{t : A \to B}{\lambda_{x:A} t(x) \defn t} \tag{$\to$-Uniq.}\]
+where \(x:A\) is a variable symbol that doesn't occur in the expression \(t.\)
+At first sight, this is slightly different than the uniqueness requirement of Theorem~\ref{T:UPE}.
+One would like to say that if two elements \(t,t': A \to B\) agree on every input then \(t \defn t'.\)
+However, we don't have a way to quantify over all inputs in the same way that one can quantify over the element of a set.
+To work around this problem, we use the judgement \(t(x) \defn t'(x)\) where \(x:A\) is a fresh variable that doesn't occur in \(t\) nor \(t'.\)
+Abstracting both sides, we obtain \(\lambda_{x:A} t(x) \defn \lambda_{x:A} t'(x)\) and the uniqueness rule allows us to conclude that \(t \defn t'.\)
+
+\begin{problem}
+  The identity function \(\id_A:A \to A\) can be defined as \(\lambda_{x:A}\,x.\)
+  \begin{enumerate}[(a)]
+  \item Define the composite \(t \circ s : A \to C\) of \(s:A \to B\) and \(t:B \to C\) using application and abstraction.
+  \item Show that if \(t:A \to B\) then \(t \circ \id_A \defn t\) and \(\id_B \circ t \defn t.\)
+  \item Show that if \(r:A \to B,\) \(s:B \to C,\) \(t:C \to D\)  then \(t \circ (s \circ r) \defn (t \circ s) \circ r.\)
+  \end{enumerate}
+\end{problem}
+
+In addition to exponentials, the category of sets has products.
+The following formation rule ensures the existence of a product for any two types \(A\) and \(B.\)
+\[\ded{\type{A} \qquad \type{B}}{\type{A \times B}} \tag{$\times$-Form.}\]
+Naturally, the introduction rule for products allows us to form pairs of elements from \(A\) and \(B.\)
+\[\frac{s : A \qquad t : B}{\pair{s,t} : A \times B} \tag{$\times$-Intro.}\]
+The elimination rule for \(\times\) is uncurrying: transforming a function \(A \to B \to C\) into a two-parameter function \(A \times B \to C.\)
+\[\frac{r : A \to B \to C}{\elim{A\times B}[r]:A \times B \to C} \tag{$\times$-Elim.}\]
+To ensure that \(\elim{A \times B}\) behaves as required, we have the associated computation rule:
+\[\frac{r : A \to B \to C \qquad s : A \qquad t : B}{\elim{A\times B}[r](\pair{s,t}) \defn r(s)(t)} \tag{$\times$-Comp.}\]
+
+\begin{problem}
+  The elimination rule allows us to define the two canonical projections
+  \[\fst \defn \elim{A\times B}[\lambda_{x:A}\lambda_{y:B}x] : A \times B \to A\]
+  and
+  \[\snd \defn \elim{A\times B}[\lambda_{x:A}\lambda_{y:B}y] : A \times B \to B.\]
+  Verify that we do indeed have \[\fst(\pair{s,t}) \defn s \quad\text{and}\quad \snd(\pair{s,t}) \defn t.\]
+\end{problem}
+
+The universal property of products from Theorem~\ref{T:UPP} asserts that given any \(s: C \to A\) and \(t: C \to B\) there is a unique \(u: C \to A \times B\) such that the diagram
+\[\xymatrix{
+  & C \ar@{.>}[dd]|{u} \ar[dl]_-{s} \ar[dr]^-{t} \\
+  A & & B \\
+  & A \times B \ar[ul]^-{\fst} \ar[ur]_-{\snd} 
+}\]
+commutes.
+The introduction rules for \(\to\) and \(\times\) allow us to construct the required \(u:C \to A \times B\) as \[u \defn \lambda_{z:C} \pair{s(z),t(z)}.\]
+The uniqueness of \(u: C \to A \times B\) requires one more rule:
+\[\ded{r:A \times B \to C}{\elim{A \times B}[\lambda_{x:A}\lambda_{y:B}\,r(\pair{x,y})] \defn r} \tag{$\times$-Uniq.}\]
+
+\begin{problem}
+  Show that if we define the canonical projections directly using the introduction rules
+  \[\ded{r:A \times B}{\fst(r) :A} \qquad \ded{r:A \times B}{\snd(r) :B}\]
+  and the computation rules
+  \[\ded{s:A \quad t: B}{\fst(\pair{s,t}) \defn s} \qquad \ded{s: A \quad t : B}{\snd(\pair{s,t}) \defn t},\]
+  then one can define the eliminator \(\elim{A \times B}.\)
+  Then show that the uniqueness rule for \(\times\) follows from the additional rule
+  \[\ded{r : A \times B}{\pair{\fst(r),\snd(r)} \defn r}.\]
+\end{problem}
+
+\begin{problem}
+  Go back through the rules so far and interpret them thinking of types as computational tasks and their constituents as programs.
+  What do the rules tell you about the programs \(\fst:A \times B \to A\) and \(\snd:A \times B \to B\)?
+\end{problem}
+
+\end{unit}
+\endinput
