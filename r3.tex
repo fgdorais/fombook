@@ -1,0 +1,86 @@
+\begin{unit}{Arithmetization and Diagonalization}
+
+Arithmetization is the process of encoding certain concepts as natural numbers.
+This process is of central importance logic and foundations since it allows us to reason about these concepts using plain natural numbers and it opens the possibility of using powerful tools such as diagonalization.
+The applications of arithmetization are far reaching.
+For example, the G\"odel Incompleteness Theorems and the Unsolvability of the Halting Problem, two of the most celebrated discoveries of the 20th century, are direct applications of this method.
+
+This great power comes at a price: the arithmetization process itself is very tedious.
+This is compounded by the fact that the details of the process, where 99\% of the tediousness is found, are usually not that important; what matters is that they can be carried out in a reasonable fashion.
+Nevertheless, it is an important rite of passage to go through the arithmetization process in detail at least once.
+We will now carry out this process for primitive recursive functions but we will omit the details of arithmetization in later applications.
+
+The key to arithmetization are \strong{pairing functions}: bijections between \(\N^2\) and \(\N.\)
+A particularly simple pairing function is \[p_2(m,n) = \frac{m^2+2mn+n^2+m+3n}{2},\] whose first few values are given in the following table.
+\aside{For a hint how this function works, observe that the values in the first column are the triangular numbers \[\begin{aligned} T_m &= \frac{m(m+1)}2 \\ &= 1 + 2 + 3 + \cdots + m.\end{aligned}\]} 
+\[\begin{array}{c|cccccc}
+  m \setminus n & 0 & 1 & 2 & 3 & 4 \\\hline
+  0 & 0 & 2 & 5 & 9 & 14 \\
+  1 & 1  & 4 & 8 & 13 & 19 \\
+  2 & 3 & 7 & 12 & 18 & 25 \\
+  3 & 6 & 11 & 17 & 24 & 32 \\
+  4 & 10 & 16 & 23 & 31 & 40 \\
+\end{array}\]
+To encode general tuples of natural numbers, will use the following notational conventions: \[\begin{aligned}
+  \atup{n_1} &= n_1, &
+  \atup{n_1,n_2} &= p_2(n_1,n_2), &
+  \atup{n_1,n_2,n_3} &= p_2(n_1,\atup{n_2,n_3}), 
+\end{aligned}\]
+and in general \[\atup{n_1,n_2,\dots,n_k}  = p_2(n_1,\atup{n_2,\dots,n_k}).\]
+For each \(k,\) this defines a bijection \(\N^k\to\N\) and thus every number encodes a unique pair, triple, quadruple, and so on:
+\[\atup{1234} = \atup{40,9} = \atup{40,0,3} = \atup{40,0,2,0} = \atup{40,0,2,0,0} = \cdots\]
+
+\begin{problem}\mbox{}
+\begin{enumerate}[(a)]
+\item Show that the pairing function \[p_2(m,n) = \frac{m^2+2mn+n^2+m+3n}{2}\] is primitive recursive and so are the associated decoding functions \(d_{2,1},d_{2,2}:\N\to\N\) such that \[d_{2,1}(p_2(m,n)) = m \qquad\text{and}\qquad d_{2,2}(p_2(m,n)) = n.\]
+\item Show that the \(k\)-tupling function \[p_k(n_1,\dots,n_k) = \atup{n_1,\dots,n_k}\] is primitive recursive and so are the associated decoding functions \(d_{k,1},\dots,d_{k,k}:\N\to\N\) such that \[d_{k,i}(\atup{n_1,\dots,n_k}) = n_i.\]
+\end{enumerate}
+\end{problem}
+
+For the arithmetization of primitive recursive functions, we will use codes that represent quadruples of numbers encoded as described above.
+These codes represent how to build the function using Definition~\ref{D:PrimitiveRecursive}.
+
+\begin{definition}
+  The codes for primitive recursive functions are obtained using the following rules:
+  \begin{itemize}
+  \item \aside{The first clause does not match the Definition~\ref{D:PrimitiveRecursive} but it is necessary for the case \(k = 1\) of primitive recursion, wherein \(f:\N^{k-1}\to\N\) is just a natural number.}
+    \(\atup{0,0,n,0}\) is the code for the number \(n.\)
+  \item \(\atup{1,0,0,0}\) is the code for the constant zero function \(\nil:\N\to\N.\)
+  \item \(\atup{1,1,0,0}\) is the code for the successor function \(\suc:\N\to\N.\)
+  \item If \(1 \leq i \leq k\) then \(\atup{k,2,i,0}\) is the code for the coordinate projection \(\prj_i:\N^k\to\N.\)
+  \item If \(a\) and \(b_1,\dots,b_\ell\) are codes \(f:\N^\ell\to\N\) and \(g_1,\dots,g_\ell:\N^k\to\N,\) respectively, then \(\atup{k,3,a,\atup{b_1,\dots,b_\ell}}\) is a code for their composition \(h:\N^k\to\N.\)
+  \item If \(a\) and \(b\) are codes for \(f:\N^{k-1}\to\N\) and \(g:\N^{k+1}\to\N,\) respectively, then \(\atup{k,4,a,b}\) is a code for the function \(h:\N^k\to\N\) defined by primitive recursion using \(f\) and \(g.\)
+  \end{itemize}
+\end{definition}
+
+\noindent
+For example,\aside{If you must know\ldots\\
+\(\phantom{1}17\,317\,347\,427\,106\,231\,281\,501\,188\\573\,238\,995\,160\,619\,968\,587\,498\,336\\493\,887\,323\,711\,914\,070\,485\,065\,067\\727\,655\,527\,268\,874\,812\,219\,714\,400\\175\,629\,369\,725\,851\,579\,387\,802\,648\\187\,083\,400\,793\,482\,062\,290\,223\,575\\389\,274\,746\,478\,223\)} \[\atup{2,4,\atup{1,2,1,0},\atup{3,3,\atup{1,1,0,0},\atup{\atup{3,2,3,0}}}}\] is a code for addition.
+Since there is more than one way to build a given primitive recursive function, a function can have many codes.
+In fact, every primitive recursive function will have infinitely many codes for if \(a\) is a code for \(f:\N^k\to\N\) then \(\atup{k,3,\atup{1,2,1,0},\atup{a}}\) also encodes this function.
+While this is an issue for primitive recursive functions, it is not an issue for their codes as the next problem shows.
+
+\begin{problem}
+  Argue that the codes for primitive recursive functions have the \emph{unique readability property}: if \(a\) is a code for a primitive recursive function then there is exactly one way to assemble \(a\) using the rules given above.
+\end{problem}
+
+It follows that a code \(a\) for a primitive recursive function \(f:\N^k\to\N\) contains full instructions on how to build \(f\) using the rules of Defintion~\ref{D:PrimitiveRecursive}.
+Since these instructions also provide us with a recipe to compute values of \(f,\) the following result is not surprising.
+
+\begin{theorem}\label{T:PRUniversal}
+  There is a computable function \(u:\N^2\to\N\) such that if \(a\) is a code for the primitive recursive function \(f:\N^k\to\N\) then \[u(a,\atup{n_1,\dots,n_k}) = f(n_1,\dots,n_k)\] for all \(n_1,\dots,n_k \in \N.\)
+\end{theorem}
+
+\noindent
+Before proving this theorem, note that while \(u:\N^2\to\N\) is computable, it cannot be primitive recursive!
+
+\begin{problem}
+  Show that \(f(n) = u(n,n)+1\) is not primitive recusive by arguing that no number can be a primitive recursive code for this function.
+\end{problem}
+
+\begin{problem}
+  Prove Theorem~\ref{T:PRUniversal}.
+\end{problem}
+
+\end{unit}
+\endinput

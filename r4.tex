@@ -1,0 +1,105 @@
+\begin{unit}{Unbounded Search}
+
+A useful way to define a function \(f:\N^k\to\N\) is by searching for the correct value.
+More precisely, we start with a property \(\varphi(m_1,\dots,m_k,n)\) that describes how the value \(n = f(m_1,\dots,m_k)\) is related to the input \(m_1,\dots,m_k.\)
+Then, we successively check \[\varphi(m_1,\dots,m_k,0), \quad \varphi(m_1,\dots,m_k,1), \quad \varphi(m_1,\dots,m_k,2), \quad \ldots\] until we find a number \(n\) such that \(\varphi(m_1,\dots,m_k,n)\) holds; we then define \(f(m_1,\dots,m_k)\) to be that number \(n.\)
+If we know that \[\forall m_1,\dots,m_k \exists n\,\varphi(m_1,\dots,m_k,n)\] then we will eventually find the target number \(n\) and this process does indeed define a function \(f:\N^k\to\N.\)
+This process is called \emph{unbounded search} where the qualifier ``unbounded'' indicates that we don't necessarily know in advance how long the search will last.
+The \emph{minimization operator} \(\mu\) provides a convenient way to denote the outcome of this kind of search process.
+
+\begin{definition}[Minimization Operator]\label{D:Minimization}
+  Given a property \(\varphi(n)\) that holds for at least one natural number \(n,\) the notation \(\mu n\,\varphi(n)\) denotes the smallest natural number \(n\) such that \(\varphi(n)\) holds.
+  In other words, \(\mu n\,\varphi(n)\) is the unique number \(n\) such that \(\varphi(n) \land \forall m < n\,\lnot\varphi(m).\)
+  When there is no such number, \(\mu n\,\varphi(n)\) is simply undefined.
+\end{definition}
+
+Note that unbounded search preserves computability in the sense that if \(\varphi(m_1,\dots,m_k,n)\) is a computable predicate such that \[\forall m_1,\dots,m_k\exists n\,\varphi(m_1,\dots,m_k,n)\] then we can evaluate \(f(m_1,\dots,m_k) = \mu n\,\varphi(m_1,\dots,m_k,n)\) by successively computing \[t_\varphi(m_1,\dots,m_k,0),\quad t_\varphi(m_1,\dots,m_k,1),\quad t_\varphi(m_1,\dots,m_k,2),\quad\ldots\] until we arrive at a number \(n\) such that \(t_\varphi(m_1,\dots,m_k,n) = 1.\)
+While we can't predict how long this process will take, it is necessarily finite since we know that such a number \(n\) will eventually be found.
+
+Let's add unbounded search to our list of building blocks for primitive recursive functions:
+
+\begin{definition}\label{D:Recursive}
+  The \emph{recursive functions} are defined by the following rules.
+  \begin{itemize}
+  \item The constant zero function \(\nil(n) = 0\) is recursive.
+  \item The successor function \(\suc(n) = n+1\) is recursive.
+  \item The coordinate projections \(\prj_i(n_1,\dots,n_k) = n_i,\) for \(1 \leq i \leq k,\) are recursive.
+  \item If \(f:\N^\ell\to\N\) and \(g_1,\dots,g_\ell:\N^k\to\N\) are recursive functions then so is the composition \[h(n_1,\dots,n_k) = f(g_1(n_1,\dots,n_k),\dots,g_\ell(n_1,\dots,n_k)).\]
+  \item If \(f:\N^{k-1}\to\N\) and \(g:\N^{k+1}\to\N\) are recursive function then so is the function \(h:\N^k\to\N\) defined by primitive recursion using \(f\) and \(g.\)
+  \item If \(f:\N^{k+1}\to\N\) is a recursive function such that \[\forall m_1,\dots,m_k \exists n\,[f(m_1,\dots,m_k,n) \neq 0]\] then \(g(m_1,\dots,m_k) = \mu n[f(m_1,\dots,m_k,n) \neq 0]\) is also recursive.
+  \item No other function is recursive.
+  \end{itemize}
+\end{definition}
+
+\noindent
+A slightly different way to state the minimization rule for recursive functions is that if \(\varphi(m_1,\dots,m_k,n)\) is a \emph{recursive predicate} --- a property whose characteristic function \[t_\varphi(m_1,\dots,m_k,n) = \begin{cases} 1 & \text{if $\varphi(m_1,\dots,m_k,n)$,} \\ 0 & \text{if $\lnot\varphi(m_1,\dots,m_k,n)$,} \end{cases}\] is recursive --- and \[\forall m_1,\dots,m_k \exists n\,\varphi(m_1,\dots,m_k,n)\] then \(g(m_1,\dots,m_k) = \mu n\,\varphi(m_1,\dots,m_k,n)\) is a recursive function.
+Indeed, we always have \[\mu n\,\varphi(m_1,\dots,m_k,n) = \mu n[t_\varphi(m_1,\dots,m_k,n) \neq 0].\]
+
+It turns out that the recursive functions form a larger class of than the primitive recursive functions.
+However, primitive recursive functions were already closed under \emph{bounded search}:
+
+\begin{problem}
+Show that if \(\varphi(m_1,\dots,m_k,n)\) is a primitive recursive predicate and \(g:\N^k\to\N\) is a primitive recursive function such that \[\forall m_1,\dots,m_k \exists n \leq g(m_1,\dots,m_k)\,\varphi(m_1,\dots,m_k,n)\] then the function \(f(m_1,\dots,m_k) = \mu n\,\varphi(m_1,\dots,m_k,n)\) is primitive recursive.
+\end{problem}
+
+The arithmetization of recursive functions is more challenging than that of primitive recursive functions.
+The main reason is that the unbounded search rule is a conditional rule: before we can apply the rule to the recursive function \(f:\N^{k+1}\to\N\) we must make sure that \[\forall m_1,\dots,m_k \exists n [f(m_1,\dots,m_k,n) = 0].\]
+Since this is not easy to check, so we can't simply add a new code for applications of this rule.
+
+To get around this difficulty, we will show that we can restrict how the unbounded search rule is applied and still obtain the full class of recursive functions.
+The basic idea is that it is not necessary to compound unbounded searches; we can always postpone searches and agglomerate them into a single unbounded search as a final computation step.
+This is called a ``normal form'' for the recursive function.
+
+\begin{theorem}[Normal Form Theorem]\label{T:NormalForm}
+  If \(f:\N^k\to\N\) is a recursive function then there is a primitive recursive predicate \(\varphi(m_1,\dots,m_k,n)\) such that \[\forall m_1,\dots,m_k \exists n\,\varphi(m_1,\dots,m_k,n)\] and \[\forall m_1,\dots,m_k\,[f(m_1,\dots,m_k) = \pi_1(\mu n\,\varphi(m_1,\dots,m_k,n))],\] where \(\pi_1:\N\to\N\) is the first coordinate projection associated with the standard pairing function.
+\end{theorem}
+
+\noindent
+The idea of the peculiar normal form \[\pi_0(\mu n\,\varphi(m_1,\dots,m_k,n)\] is that while a recursive function \(f:\N^k\to\N\) is not necessarily primitive recursive, there is a primitive recursive way to \textit{verify} that a number is the correct value of \(f(m_1,\dots,m_k).\)
+This is what the primitive recursive predicate \(\varphi(m_1,\dots,m_k,n)\) does.
+The reason for the final composition with \(\pi_1:\N\to\N\) is that the primitive recursive verification procedure may need some auxiliary data to verify the correct value for \(f(m_1,\dots,m_k).\)
+Thus the number \(n\) such that \(\varphi(m_1,\dots,m_k,n)\) is actually a code for a pair \(n = \atup{p,q}\) where \(p\) is the value and \(q\) encodes some auxiliary data used to verify that \(p = f(m_1,\dots,m_k)\) is true.
+
+The strategy to prove the Normal Form Theorem is to show that the normal form functions have all the properties of Definition~\ref{D:Recursive}.
+That is, after showing that the constant zero function, the successor function and the coordinate projections can be written in normal form, we show that functions obtained by composition, primitive recursion or unbounded search from normal form functions can also be expressed in normal form.
+
+\begin{problem}\mbox{}
+\begin{enumerate}[(a)]
+%\item Show that constant zero function, the successor function and the coordinate projections can be written in normal form.
+\item Show that if \(f:\N^\ell\to\N\) and \(g_1,\dots,g_\ell:\N^k\to\N\) are all normal form functions then their composition \(h:\N^k\to\N\) can be written in normal form.
+\item Show that if \(f:\N^{k-1}\to\N\) and \(g:\N^{k+1}\to\N\) are both normal form functions then the function \(h:\N^k\to\N\) defined by primitive recursion from \(f\) and \(g\) can be written in normal form.
+\item Show that if \(f:\N^{k+1}\to\N\) is a normal form function such that \[\forall m_1,\dots,m_k \exists n[f(m_1,\dots,m_k,n) \neq 0]\] then the function \(g:\N^k\to\N\) defined by unbounded search\[g(m_1,\dots,m_k) = \mu n\,[f(m_1,\dots,m_k,n) \neq 0]\] can be written in normal form.
+\end{enumerate}
+\end{problem}
+
+\aside{Recall that this function \(u:\N^2\to\N\) has the property that if \(a\) is a code for the primitive recursive function \(f:\N^k\to\N,\) then \[f(n_1,\dots,n_k) = u(a,\atup{n_1,\dots,n_k})\] for all \(n_1,\dots,n_k \in \N.\)}
+To arithmetize recursive functions, we will use the computable function \(u:\N^2\to\N\) from Theorem~\ref{T:PRUniversal}.
+%Therefore \(\vartheta(a,n)\) has the property that for every primitive recursive predicate \(\varphi(n_1,\dots,n_k)\) there is a code \(a\) such that \[\forall n_1,\dots,n_k(\varphi(n_1,\dots,n_k) \liff \vartheta(a,\atup{n_1,\dots,n_k})).\]
+
+\begin{problem}
+  Show that for every recursive function \(f:\N^k\to\N\) there is a code \(a\) for a \((k+1)\)-ary primitive recursive predicate such that \(f(m_1,\dots,m_k) = \pi_1(\mu n\,[u(a,\atup{m_1,\dots,m_k,n}) \neq 0])\) for all \(m_1,\dots,m_k \in \N.\)
+\end{problem}
+
+\noindent
+While this does give codes for recursive functions, it does not fully resolve the arithmetization problem since we still can't tell whether a number is a code for a recursive function.
+
+The way around this conundrum is to consider the broader class of \textit{partial} recursive functions.
+That is, we allow functions to be undefined on certain inputs:
+
+\begin{definition}
+  \aside{We write \(\renum{e}(\bar{m})\divrg\) to indicate that \(\renum{e}(\bar{m})\) is undefined.
+    We also write \(\renum{e}(m_1,\dots,m_k)\cnvrg\) to indicate that \(\renum{e}(m_1,\dots,m_k)\) is defined (but the actual value is not of particular interest).}
+  If \(e\) is a code for a \((k+1)\)-ary primitive recursive predicate, then the \(e\)-th \emph{partial recursive function} is defined by \[\renum{e}(m_1,\dots,m_k) = \pi_0(\mu n\,\vartheta(e,[m_1,\dots,m_k,n])),\] where \(\renum{e}(m_1,\dots,m_k)\) is simply undefined if the search process does not succeed in finding a suitable number \(n.\)
+\end{definition}
+
+
+\begin{problem}
+  Show that \[h(e) = \begin{cases}
+    \renum{e}(e) + 1 & \text{if $\renum{e}(e)\cnvrg$,} \\
+    0 & \text{if $\renum{e}(e)\divrg$,} 
+  \end{cases}\] is not a recursive function.
+  Conclude that the \emph{halting problem} --- whether \(\renum{e}(n)\cnvrg\) --- is not recursively solvable.
+\end{problem}
+
+\end{unit}
+\endinput

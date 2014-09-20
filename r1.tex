@@ -1,0 +1,167 @@
+\begin{unit}{The Concept of Natural Number}
+
+What is a natural number?
+This is a difficult question since numbers are abstractions: the number \(3\) is what is common to all collections of three objects.
+Early on, we learned to associate \(3\) to such collections and shortly thereafter we learned the arithmetical properties of these numbers.
+While this is a perfectly fine working definition of natural number, it is not one that lends itself well to a mathematical analysis.
+\aside{The eight solutions are when \(x = \pm1\) and \(y = \pm4,\) and when \(x = \pm7\) and \(y = \pm8.\)}
+How can we use such conventions to formally prove that the equation \(15+x^2 = y^2\) has exactly eight integer solutions?
+
+For the sake of concreteness, let's try to fix a definite representation for natural numbers.
+To serve as a foundation, this representation should be conceptually simple and it should rely on a minimum of prior notions.
+Tally notation satisfies both these criteria.
+Let's fix a simple symbol --- say \(\prime\) --- to use as a basic token and define natural numbers as the sequence\aside{The initial comma is not a typo: first element of the sequence is blank!}\[\nat0, \qquad \nat1,  \qquad \nat2, \qquad \nat3, \qquad \nat4, \qquad \ldots\]
+This is conceptually simple since each natural number is a collection of that many objects.
+We can use these to verify that the equation \[{\underbrace{1+\cdots+1}_{\text{$\nat{15}$ times}}} + x^2 = y^2\] has exactly \(\nat{8}\) integer solutions by exhibiting a one-to-one correspondence between the solutions and the tallies in the list.
+
+Since the generation of our tally lists is reproducible, a concise description of this process suffices to unambiguously define the natural numbers.
+
+\begin{definition}\label{D:N}
+  The \strong{standard natural numbers} are defined using the following rules.
+  \begin{itemize}
+  \item The empty tally list is a natural number.
+  \item Appending a tally mark to a natural number results in a natural number.
+  \item Nothing else is a natural number.
+  \end{itemize}
+  The collection of standard natural numbers will be denoted \(\N.\)
+\end{definition}
+
+The choice of tally notation in Definition~\ref{D:N} was well motivated but ultimately arbitrary.
+The axiomatic method can be used to accommodate alternative choices.
+
+\newcommand{\pax}[1]{\ensuremath{\mathsf{PA}_{\ref{PA:#1}}}}
+\begin{definition}\label{D:PA}
+  The axiomatic system of \strong{Peano Arithmetic} \textup(\PA\textup) has two primitive symbols:
+  \aside{To describe an axiomatic system, one first needs to specify the symbols of the language.
+    Logical symbols as well as equality are understood but everything else needs to be specified.
+    Once the language is fully specified, one can formulate the axioms of the system.}
+  \begin{itemize}
+  \item a constant symbol \(0\) \textup (\emph{zero}\textup), and 
+  \item a one-place operation symbol \(\mathvisiblespace'\) \textup(\emph{successor}\textup). 
+  \end{itemize} 
+  The axioms of \PA\ are: 
+  \begin{enumerate}[\upshape($\mathsf{PA}_1$)]
+  \item\label{PA:succ} \(\forall m, n\,(m = n \liff m' = n'),\)
+  \item\label{PA:zero} \(\forall n\,(n' \neq 0),\)
+  \item\label{PA:ind} \(\varphi(0) \land \forall n\,(\varphi(n) \lthen \varphi(n')) \lthen \forall n\,\varphi(n)\) for any property \(\varphi.\)
+  \end{enumerate}
+\end{definition}
+
+\noindent
+In the axioms of \PA, the variable symbols \(m\) and \(n\) are intended to range over the domain of natural numbers.
+This domain could be anything, so long as it suports a structure that satisfies the axioms of \PA.
+The choice of notation \(\mathvisiblespace'\) for the successor operation is meant to suggest the tally mark interpretation of Definition~\ref{D:N}, but the axioms do not prescribe a specific meaning to this choice.
+The axioms only prescribe properties that an interpretation must satisfy.
+
+\begin{definition}\label{D:PA}
+  A \strong{model of \PA} consists of
+  \begin{itemize}
+  \item an interpretation of the domain of natural numbers,
+  \item an interpretation of \(0\) as an element of the domain,
+  \item an interpretation of \(\mathvisiblespace'\) as an operation on elements of the domain,
+  \end{itemize}
+  in such a way that all axioms of \PA\ are valid using these interpretations.
+\end{definition}
+
+Definition~\ref{D:N} provides us with a model of \PA, our \strong{standard model}, where \(0\) is interpreted as the empty tally list and the successor operation is interpreted as appending a tally mark.
+\aside{Convince yourself that the standard model satisfies \(\pax{succ}\) and \(\pax{zero}\) before moving on!}
+The first two axioms \(\pax{succ}\) and \(\pax{zero}\) are clear.
+The third axiom \(\pax{ind}\) is a consequence of the last requirement of Definition~\ref{D:N}.
+If \(\varphi\) is a property of our standard natural numbers such that the following are true.
+\begin{description}
+\item[Base Case ---] The property \(\varphi\) holds of the empty tally list: \(\varphi(0).\)
+\item[Successor Step ---] Whenever \(\varphi\) holds of a natural number it also holds of its successor: \(\forall n\,(\varphi(n) \lthen \varphi(n')).\)
+\end{description}
+Then \(\phi\) must hold of every natural number \(n.\)
+Indeed, the natural number \(n\) must be obtained by successively appending tallies starting from empty tally list.
+So, we can deduce \(\varphi(n)\) by following the construction of \(n,\) starting from the \emph{Base Case} applying the \emph{Successor Step} each time we append a new tally mark until we finally reach~\(n.\) 
+This method, \strong{mathematical induction}, is a very powerful way to establish properties of natural numbers.
+
+The Peano Axioms completely describe the natural numbers in the following sense.
+
+\begin{theorem}[Peano Categoricity Theorem]\label{T:PeanoCategoricity}
+  Given any two models \(\N_1\) and \(\N_2\) of \PA,\aside{If we write \(0_1,s_1\) and \(0_2,s_2\) for the interpretations of the constant zero and the successor operation in \(\N_1\) and \(\N_2\) respectively, the requirements of the translation \(h:\N_1 \to \N_2\) can be written symbolically as \(h(0_1) = 0_2\) and \(h(s_1(n)) = s_2(h(n)).\)} there is a \emph{unique} way to translate between elements of the domain of \(\N_1\) and elements of the domain of \(\N_2\) in such a way that the following are true.
+  \begin{itemize}
+  \item The zero element of \(\N_1\) translates to the zero element of \(\N_2.\)
+  \item The successor of an element \(n\) in \(\N_1\) translates to the successor of the translation of \(n\) in \(\N_2.\)
+  \end{itemize}
+\end{theorem}
+
+\noindent
+Such a translation is called an \strong{isomorphism}.
+In general, isomorphic structures are structurally the same but the implementation details may be different.
+
+An immediate consequence of Theorem~\ref{T:PeanoCategoricity} is that every model of \PA\ is isomorphic to our standard model \(\N.\) 
+In other words, any other model of \PA\ is indistinguishable from our standard model except for inessential details such as how numbers are actually represented.
+For computational purposes, decimal and binary representation is much more efficient than tally notation.
+The only advantage of tally notation is that it provides a very simple representation of zero and successor, the only two aspects of natural numbers that appear in \PA.
+
+In fact, Theorem~\ref{T:PeanoCategoricity} says more: the isomorphism between any two models of \PA\ is unique.
+So we never need to worry about how to translate between a model of \PA\ and our standard model \(\N\) since there is only one possible translation!
+
+
+\begin{problem}
+  Peano described addition using two simple rules:
+  \begin{itemize}
+  \item \(m + 0 = m\)
+  \item \(m + n' = (m + n)'\)
+  \end{itemize}
+  \begin{enumerate}[(a)]
+  \item Use these rules to show that \(2 + 2 = 4,\) or rather \(\tal2 + \tal2 = \tal4.\)
+  \item Explain how these two rules can be used to correctly compute the sum of any two standard natural numbers.
+  \end{enumerate}
+\end{problem}
+
+\begin{problem}
+  Peano described multiplication using two simple rules:
+  \begin{itemize}
+  \item \(m \times 0 = 0\)
+  \item \(m \times n' = m \times n + m\)
+  \end{itemize}
+  \begin{enumerate}[(a)]
+  \item Use these rules to show that \(2 \times 2 = 4,\) or rather \(\tal2 \times \tal2 = \tal4.\)
+  \item Explain how these two rules can be used to correctly compute the product of any two standard natural numbers.
+  \end{enumerate}
+\end{problem}
+
+\begin{problem}
+  Design similar computation rules of exponentiation and use them to show that \(2^2 = 4.\) 
+\end{problem}
+
+\begin{theorem}[Recursion Principle]\label{T:Recursion}
+  Given an object \(x_0 \in A\) and a function \(f:A \to A\) there is a \emph{unique} function \(h:\N \to A\) such that \[h(0) = x_0 \quad\text{and}\quad \forall n\,(h(n') = f(h(n))).\]
+\end{theorem}
+
+\begin{problem}
+  The following steps outline a proof of the Recursion Principle.
+  Let \(x_0 \in A,\) \(f:A \to A\) and so on be as in the statement of the theorem.
+  A finite list \(u_0,u_1,\dots,u_n\) of elements of \(A\) is an \emph{attempt at \(h\)} if \(u_0 = x_0\) and any two successive list elements are related by \(u_{i'} = f(u_i).\)
+  \begin{enumerate}[(a)]
+  \item Show that if \(u_0,u_1,\dots,u_n\) and \(v_0,v_1,\dots,v_m\) are two attempts at \(h\) then we must have \(u_i = v_i\) for \(0 \leq i \leq m,n.\)
+  \item Show that for every \(n \in \N\) there is a (necessarily unique) list \(u_0,u_1,\dots,u_n\) of length \(n'\) which is an attempt at \(h.\)
+  \item Show that the function \(h:\N \to X\) defined by \(h(n) = u_n,\) where \(u_0,u_1,\dots,u_n\) is the unique attempt at \(h\) with length \(n',\) satisfies the conclusion of the theorem.
+  \end{enumerate}
+\end{problem}
+
+\begin{theorem}[Parameterized Recursion Principle]\label{T:ParameterizedRecursion}
+  Given a parameter set \(P\) and two functions \(x:P \to A\) and \(f:P \times A \to A,\) there is a \emph{unique} function \(h:P \times \N \to A\) such that for every parameter \(p \in P,\) we have \[h(p,0) = x(p) \quad\text{and}\quad \forall n\,(h(p,n') = f(p,h(n))).\] 
+\end{theorem}
+
+\begin{problem}
+  Prove the Parameterized Recursion Principle.
+\end{problem}
+
+\begin{problem}
+  Prove the Peano Categoricity Theorem.
+\end{problem}
+
+\begin{problem}
+  The rules of arithmetic are all consequences of \PA\ and the above definitions of addition, multiplication and exponentiation.
+  To convince yourself of this, prove the following familiar facts about addition:
+  \[\begin{aligned}
+    (\ell + m) + n &= \ell + (m+n), & 0 + n &= n, & m + n &= n + m.
+  \end{aligned}\]
+\end{problem}
+
+\end{unit}
+\endinput

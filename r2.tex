@@ -1,0 +1,131 @@
+\begin{unit}{Primitive Recursive Functions}
+
+A \strong{computable function} is a function \(f:\N^k\to\N\) for which there is a finite list of simple instructions that can be used to compute the value \(f(m_1,\dots,m_k)\) in a finite number of steps.
+These play a very special role in arithmetic as we will soon discover.
+While we do have an intuitive understanding of what constitutes ``a finite list of simple instructions,'' we need to make that concept precise in order to be able to understand what a computable function really is.
+
+We have already seen that addition can be described using two simple instructions: \[m + 0 = m \qquad\text{and}\qquad m + n' = (m+n)'.\]
+Moreover, multiplication and exponentiation also admit such a description.
+Indeed, the Parameterized Recursion Principle is one of the ``simple instructions'' we can use to build computable functions.
+More precisely, we will use the following variation as a basic building block for computable functions.
+
+\begin{definition}\label{D:PrimitiveRecursion}
+  A function \(h:\N^k\to\N\) is defined by \strong{primitive recursion} using \(f:\N^{k-1}\to\N\) and \(g:\N^{k+1}\to\N\) if \[h(\bar{m},0) = f(\bar{m}) \quad\text{and}\quad h(\bar{m},n+1) = g(\bar{m},n,h(\bar{m},n))\] for all \(n \in \N\) and all parameters \(\bar{m} = (m_1,\dots,m_{k-1}) \in \N^{k-1}.\)
+\end{definition}
+
+\noindent
+Strictly speaking, this is not exactly a special case of parameterized recursion.
+First, we have \(k-1\) parameters instead of just one.
+Second, the function \(g\) has an extra input \(n,\) which is not a fixed parameter.
+The first problem can be solved by bundling the parameters into one (as suggested by the condensed notation \(\bar{m} = (m_1,\dots,m_{k-1})\)).
+Using a similar bundling trick, we see that the function \(\bar{h}(\bar{m},n) = (n,h(\bar{m},n))\) is obtained by parameterized recursion using \(\bar{f}(\bar{m}) = (0,f(\bar{m}))\) and \(\bar{g}(\bar{m},(n,k)) = (n+1,g(\bar{m},n,k)).\)
+
+Combined with a few more basic building blocks, primitive recursion leads to an interesting class of computable functions.
+
+\begin{definition}\label{D:PrimitiveRecursive}
+  The \strong{primitive recursive functions} are defined by the following rules.
+  \begin{itemize}
+  \item The constant zero function \(\nil(n) = 0\) is primitive recursive.
+  \item The successor function \(\suc(n) = n+1\) is primitive recursive.
+  \item The coordinate projections \(\prj_i(n_1,\dots,n_k) = n_i,\) for \(1 \leq i \leq k,\) are primitive recursive.
+  \item If \(f:\N^\ell\to\N\) and \(g_1,\dots,g_\ell:\N^k\to\N\) are primitive recursive functions then so is the composition \(h(n_1,\dots,n_k) = f(g_1(n_1,\dots,n_k),\dots,g_\ell(n_1,\dots,n_k)).\)
+  \item If \(f:\N^{k-1}\to\N\) and \(g:\N^{k+1}\to\N\) are primitive recursive function then so is the function \(h:\N^k\to\N\) defined by primitive recursion using \(f\) and \(g\) as in Definition~\ref{D:PrimitiveRecursion}.
+  \item No other function is primitive recursive.
+  \end{itemize}
+\end{definition}
+
+\noindent
+Note that the rules are very strict regarding the number of arguments that the functions have.
+The natural way to define addition \(h(m,n) = m + n\) is by \[h(m,0) = m \qquad\text{and}\qquad h(m,n+1) = h(m,n)+1,\] but this doesn't exactly fit the pattern for primitive recursion, which requires two primitive recursive functions \(f:\N\to\N\) and \(g:\N^3\to\N\) in order to produce a new primitive recursive function \(h:\N^2\to\N.\)
+
+\begin{problem}
+  Show that addition \(h(m,n) = m + n\) is primitive recursive by finding suitable \(f:\N\to\N\) and \(g:\N^3\to\N\) and showing that these are primitive recursive too.
+  Then, do the same for multiplication and exponentiation.
+\end{problem}
+
+\noindent
+\begin{problem}\label{P:PrimitiveRecursiveBase}
+Show that the following functions are primitive recursive.
+\begin{enumerate}[(a)]
+\item \(\displaystyle \pre(n) = \begin{cases} 0 & \text{if $n = 0$,} \\ n-1 & \text{if $n \neq 0$.} \end{cases}\)
+\item \(\displaystyle n \sub m = \begin{cases} 0 & \text{if $n < m$,} \\ n-m & \text{if $n \geq m$.} \end{cases}\)
+\item \(\displaystyle |n - m| = \begin{cases} m-n & \text{if $n < m$,} \\ n-m & \text{if $n \geq m$.} \end{cases}\)
+\item \(\displaystyle \ch(m_0,m_1,n) = \begin{cases} m_0 & \text{if $n = 0$,} \\ m_1 & \text{if $n \neq 0$.} \end{cases}\)
+\item \(\displaystyle \max(m,n) = \begin{cases} m & \text{if $n < m$,} \\ n & \text{if $n \geq m$.} \end{cases}\)
+\item \(\displaystyle \min(m,n) = \begin{cases} n & \text{if $n < m$,} \\ m & \text{if $n \geq m$.} \end{cases}\)
+\end{enumerate}
+\end{problem}
+
+\begin{problem}
+  Show that if \(f:\N^k\to\N\) is primitive recursive, then so are \[\sum\limits_{i = 0}^n f(m_1,\dots,m_{k-1},i) \quad\text{and}\quad\prod\limits_{i = 0}^n f(m_1,\dots,m_{k-1},i).\]
+\end{problem}
+
+There is a fair amount of tedium involved in proving that functions are primitive recursive using Definition~\ref{D:PrimitiveRecursive}.
+A typical method for defining functions in mathematics simply spell out how the output is related to the input.
+For example, the quotient that results when \(m\) is divided by a positive integer \(n\) can be described as the unique integer \(q\) such that \[nq \leq m \land n(q+1) > m.\]
+The resulting function \(q:\N^2\to\N\) (extended with \(q(m,0) = 0,\) say) is primitive recursive but, as you may expect, it is not easy to build this function using primitive recursion.
+Fortunately, we can define primitive recursive functions by describing how outputs relate to the inputs, provided that this relationship is simple enough and the function doesn't grow too fast.
+
+\begin{definition}\label{D:PrimitiveRecursivePredicate}
+  A property \(\varphi(n_1,\dots,n_k)\) of natural numbers is a \emph{primitive recursive predicate} if \[t_\varphi(n_1,\dots,n_k) = \begin{cases} 1 & \text{if $\varphi(n_1,\dots,n_k)$,} \\ 0 & \text{if $\lnot\varphi(n_1,\dots,n_k)$,} \end{cases}\] is a primitive recursive function.
+\end{definition}
+
+\begin{theorem}\label{T:PrimitiveRecursivePredicate}\mbox{}
+\begin{enumerate}[\upshape(a)]
+\item \(m = n\) and \(m \leq n\) are primitive recursive predicates.
+\item If \(\varphi(n_1,\dots,n_k)\) is a primitive recursive predicate and \(f_1,\dots,f_k:\N^\ell\to\N\) are primitive recursive functions then \[\varphi(f_1(m_1,\dots,m_\ell),\dots,f_k(m_1,\dots,m_\ell))\] is also a primitive recursive predicate.
+\item If \(\varphi(n_1,\dots,n_k)\) and \(\psi(n_1,\dots,n_k)\) are primitive recursive predicates then so are \[\begin{aligned}
+    \varphi(n_1,\dots,n_k) &\land \psi(n_1,\dots,n_k), \\
+    \varphi(n_1,\dots,n_k) &\lor \psi(n_1,\dots,n_k), \\
+    \varphi(n_1,\dots,n_k) &\lthen \psi(n_1,\dots,n_k), \\
+    \varphi(n_1,\dots,n_k) &\liff \psi(n_1,\dots,n_k), \\
+  \end{aligned}\] and \[\lnot\varphi(n_1,\dots,n_k).\]
+\item
+  If \(\varphi(m_1,\dots,m_{k-1},i)\) is a primitive recursive predicate then so are \aside{For bounded quantifiers like these, it is always assumed that \(i\) and \(n\) are different variable symbols, or else the constraint \(i \leq n\) wouldn't be much of a constraint!}
+  \[\forall i \leq n\,\varphi(m_1,\dots,m_{k-1},i)\] and
+  \[\exists i \leq n\,\varphi(m_1,\dots,m_{k-1},i).\] 
+\end{enumerate}
+\end{theorem}
+
+\noindent
+The next result is a key tool to show that functions are primitive recursive.
+
+\begin{theorem}\label{T:PrimitiveRecursiveDescription}
+  A function \(f:\N^k\to\N\) is primitive recursive if \textup(and only if\textup)
+  \begin{itemize}
+  \item the graph \(n = f(m_1,\dots,m_k)\) is a primitive recursive predicate, and
+  \item there is a primitive recursive function \(g:\N^k\to\N\) such that \[f(m_1,\dots,m_k) \leq g(m_1,\dots,m_k)\] for all \(m_1,\dots,m_k \in \N.\)
+  \end{itemize}
+\end{theorem}
+
+\begin{problem}
+  Assuming Theorem~\ref{T:PrimitiveRecursivePredicate} and Theorem~\ref{T:PrimitiveRecursiveDescription}, complete the proof that the quotient function \(q:\N^2\to\N\) is primitive recursive.
+  Then show that the remainder function \(r:\N^2\to\N\) is also primitive recursive.
+\end{problem}
+
+\begin{problem}
+  Prove Theorem~\ref{T:PrimitiveRecursivePredicate}.
+  (\textit{Hint}: The primitive recursive functions from Problem~\ref{P:PrimitiveRecursiveBase} may be handy.)
+\end{problem}
+
+\begin{problem}
+  Suppose \(f:\N^k\to\N\) is a function with a primitive recursive graph, as in Theorem~\ref{T:PrimitiveRecursiveDescription}.
+  \begin{enumerate}[(a)]
+  \item Show that \[h(m_1,\dots,m_k,i) = \begin{cases} 
+      1 & \text{if $i < f(m_1,\dots,m_k)$,} \\
+      0 & \text{if $i \geq f(m_1,\dots,m_k)$,}
+    \end{cases}\] is primitive recursive.
+  \item Show that if \(f(m_1,\dots,m_k) \leq n,\) then \[f(m_1,\dots,m_k) = \sum_{i=0}^n h(m_1,\dots,m_k,i).\]
+  \item Prove Theorem~\ref{T:PrimitiveRecursiveDescription}.
+  \end{enumerate}
+\end{problem}
+
+\begin{problem}\mbox{}
+  \begin{enumerate}[(a)]
+  \item Show that ``\(n\) is a prime number'' is a primitive recursive predicate.
+  \item Show that the prime counting function \[\pi(n) = \text{number of primes $p \leq n$}\] is primitive recursive.
+  \item Show that the function \(p:\N\to\N\) that enumerates the prime numbers in increasing order is primitive recursive.
+  \end{enumerate}
+\end{problem}
+
+\end{unit}
